@@ -1,0 +1,42 @@
+Raven Bionics | Historical optimization study | Source notes
+
+Campaign: 9 November 2026. Seven pinned implementations, original Baseline
+b830ae0 through v6 at 952f560. Completed evidence was pinned at 01d1f54.
+Technical interpretation reviewed in the simulator checkout at 678b73d.
+
+Internal source documents:
+  docs/performance/OPTIMIZATION_STUDY.md
+  docs/research/optimization-study-2026-11-09/ANALYSIS.md
+  docs/research/optimization-study-2026-11-09/data/browser-common-180s.csv
+  docs/research/optimization-study-2026-11-09/data/matched-cpu-and-memory.csv
+
+Application comparison: 24 simulated agents, 2 seeds x 2 repetitions per
+implementation, common 180 wall-clock seconds, headless Chrome 148 using ANGLE
+D3D11 on one AMD integrated Radeon host. Application FPS is completed frames
+divided by the common wall duration. Rays/s and semantic observation calls/s
+use the retained cumulative counters and actual exposure. The website CSV
+provides the frame counts and rates for all 28 primary observations.
+
+Figure: application-throughput.svg. The gold point shows the median of each
+version's four FPS values; the vertical stroke spans their minimum and maximum.
+Endpoints, not a confidence interval. The study's run-bootstrap intervals,
+reported separately, overlap for v5 and v6.
+
+Baseline to v6 medians: 0.59 to 11.51 FPS, 897 to 5,080 rays/s, 659 to 3,812
+semantic observations/s. These are three different measures.
+
+Matched CPU comparison: 35,938 allocated object cells, 96 ordered observations
+plus graph summary, three independent processes per version. Median warm
+processing 550.43 to 6.70 ms. Retained JS heap delta after forced garbage
+collection 31.33 to 44.83 MB in decimal units, approximately 43.1% higher.
+Within each fixture group the historical cases agreed on evidence hashes and
+cell counts. No isolated cache size, GPU memory or execution time was measured.
+
+Limitations: one machine and workload, small run counts, variable trajectories,
+historical shared changes, and instrumentation effects. No benchmark reported
+here measures geometric accuracy, learned recognition, navigation safety, or
+performance on physical robots.
+
+Source notes and figures were prepared for this website from first-party
+simulator material. The simulator repository is access-controlled; these
+public extracts do not require repository credentials.

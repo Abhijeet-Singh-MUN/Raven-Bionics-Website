@@ -1,0 +1,28 @@
+Raven Bionics | Spatial memory fixture | Figure notes, 18 November 2026
+
+“Experiment 05” is the research catalogue label in the website specification.
+The figure is a separate, deterministic inspection of the implemented simulator’s
+object memory. It is not a recording of a browser experiment numbered 5.
+
+Implementation inspected: Simulation-development, commit
+678b73d47e2907b99482543982851311ca85be25. Relevant modules:
+  src/swarm/semantic-scene-graph.js
+  src/swarm/adaptive-voxel-memory.js
+  src/experiments/profiles/ex-incremental-parts.js (v6)
+  scripts/benchmark-study/matched-cpu.js
+
+Reproduction: use the object fixture from matched-cpu.js with 2,048 seed hits,
+seed 123456, mesh size 36, and its defined agent position and observation order.
+After the initial returns, execute the two warm passes and nine repeated passes
+of 96 observations plus graph summary. Read the real tree through sculptedVoxels
+for bench-object with candidate-free cells excluded. The resulting tree has
+35,938 allocated cells and the display output has 1,728 surface/mixed leaves.
+
+The WebP shows the original input coordinates on the left and draws each
+returned leaf using its actual center and size on the right. Coordinates use
+one orthographic projection for both views. Colors identify the display states.
+The wireframe marks known fixture dimensions and the ground grid gives orientation.
+Unobserved cells, internal tree nodes and free-space candidates are not drawn.
+
+The fixture supplies pose, geometry and object identity. It demonstrates a
+working memory representation, not field performance or shape accuracy.
