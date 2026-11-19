@@ -4,7 +4,9 @@ The opening pairs a naturalistic portrait with a legible statement of the resear
 
 ## Typography and tokens
 
-Change the custom properties at the top of `src/styles.css`. Near-black green, pale paper, ink and muted mint establish the palette. Instrument Serif sets titles and italic emphasis. DM Sans handles prose, controls and scientific captions. Only three Latin WOFF2 files are served. Body line lengths and margins scale with viewport width. Thin rules group related information; focus rings and underlined text links remain visible.
+Change the custom properties at the top of `src/styles.css`. Near-black green, pale paper, ink and muted mint establish the palette. Instrument Serif sets titles and italic emphasis. DM Sans handles prose, controls and scientific captions. Only three Latin WOFF2 files are served. The hero title scales from 62 to 94 px on desktop with a 1.035 line height. The italic line has a narrower measure to leave space beside the beak. In portrait tablet layouts the text sits lower, beneath the head. Short 8 px rules identify section labels; the longer italic species caption retains its own rule. Body line lengths and margins scale with viewport width. Thin rules group related information; focus rings and underlined text links remain visible.
+
+A charcoal and silver-blue trial gave the portrait a cooler cast. The mint accent connects the natural plumage to the sage terrain and remains the default. The header, footer and favicon share a right-facing raven profile with a domed crown, deep arched bill and projecting throat hackles. Three silhouettes were compared at favicon, header and footer sizes. The selected mark uses two large feather breaks so its outline stays legible at 16 px.
 
 ## Page structure
 

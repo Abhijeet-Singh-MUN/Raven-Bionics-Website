@@ -4,7 +4,7 @@ Paths below are relative to `public/` unless indicated. Media is served locally.
 
 | Asset | File and footprint | Source and use | Rights, attribution and status |
 | --- | --- | --- | --- |
-| Company mark | media/identity/mark.svg, viewBox 48 × 44, <1 KB | Original angular raven silhouette for navigation and favicon | First-party design, no external attribution. V1 provisional identity. |
+| Company mark | media/identity/mark.svg, viewBox 48 × 44, <1 KB | Original right-facing raven profile with a domed crown, split bill, cutout eye and projecting throat hackles; shared by header, footer and favicon | First-party design, no external attribution. V1 provisional identity. |
 | Hero portrait | media/raven/hero.webp, 1536 × 1024, 161 KB | Original OpenAI ImageGen portrait made for this implementation | Generated illustration, no third-party photo or attribution. V1 editorial artwork, awaiting permanent art direction. |
 | Responsive portrait | media/raven/hero-small.webp, 768 × 512, 33 KB | Same composition, smaller encoding | Same provenance. Pupil at 73.31% across and 25.39% down in both versions. |
 | Eye detail | Optional media.raven.eyeDetail, empty by default | Current transition zooms the hero master | No separate asset is required. Supply a locally licensed, registered image for an upgrade. |

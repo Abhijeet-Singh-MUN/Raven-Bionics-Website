@@ -186,6 +186,9 @@ button[hidden] {
   height: 100%;
   object-fit: cover;
 }
+.portrait img {
+  object-position: 50% 0%;
+}
 .eye-detail {
   position: absolute;
   inset: 0;
@@ -210,7 +213,11 @@ button[hidden] {
   background: #141b1b;
 }
 .hero-portal img {
-  transform: scale(var(--approach, 1));
+  object-fit: contain;
+  object-position: center;
+  padding: 2.5svh 2vw;
+  transform: translate(var(--valley-x, 0px), var(--valley-y, 0px))
+    scale(var(--approach, 1));
 }
 .hero-inner {
   height: 100%;
@@ -237,7 +244,7 @@ button[hidden] {
 .eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 13px;
+  gap: 8px;
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -247,7 +254,7 @@ button[hidden] {
 .eyebrow::before {
   content: "";
   display: block;
-  width: 30px;
+  width: 8px;
   height: 1px;
   background: currentColor;
 }
@@ -269,20 +276,20 @@ h2,
   font-family: var(--serif);
 }
 .hero-copy h1 {
-  font-size: clamp(71px, 7.05vw, 116px);
-  letter-spacing: -0.043em;
-  line-height: 0.96;
-  margin: 24px 0;
+  font-size: clamp(62px, 5.95vw, 94px);
+  letter-spacing: -0.028em;
+  line-height: 1.035;
+  margin: 26px 0 22px;
 }
 .hero-copy h1 em {
   display: inline-block;
-  max-width: 9em;
+  max-width: 7.7em;
   color: var(--mint);
   font-weight: 400;
 }
 .hero-copy p {
   color: #c4cbc7;
-  max-width: 31em;
+  max-width: 29em;
   font-size: clamp(16px, 1.25vw, 20px);
   line-height: 1.62;
 }
@@ -717,26 +724,56 @@ th small {
   font-weight: 400;
 }
 @media (min-width: 701px) and (prefers-reduced-motion: no-preference) {
-  .enhanced .hero-journey {
-    height: calc(max(620px, 100svh - 78px) + 46svh);
-  }
-  .enhanced .hero-stage {
-    position: sticky;
-    top: 0;
-  }
   .enhanced .scene-journey {
     position: relative;
   }
   .enhanced .scene-journey::after {
     content: "";
     display: block;
-    height: 36svh;
+    height: 45svh;
   }
   .enhanced .scene {
     position: sticky;
     top: 24px;
   }
 }
+/* Only layouts that play the eye sequence need a viewport-sized sticky stage. */
+@media (prefers-reduced-motion: no-preference) and (min-width: 701px) and (orientation: landscape),
+  (prefers-reduced-motion: no-preference) and (min-width: 1001px) {
+  .enhanced .hero-journey {
+    height: calc(max(620px, 100svh) + clamp(560px, 88svh, 1040px));
+  }
+  .enhanced .hero-stage {
+    position: sticky;
+    top: 0;
+    height: max(620px, 100svh);
+  }
+  .enhanced .portrait {
+    bottom: var(--mast-in-view, 79px);
+  }
+  .enhanced .hero-inner {
+    height: calc(100% - var(--mast-in-view, 79px));
+  }
+  .enhanced .hero-foot {
+    bottom: calc(22px + var(--mast-in-view, 79px));
+  }
+}
+
+/* Limit enlargement of the existing bust on wide monitors. Anchor the cut edge
+   to the right; let the lower feathers merge into the stage. */
+@media (min-width: 1500px) and (min-aspect-ratio: 17/10) {
+  .portrait {
+    left: auto;
+    width: min(72vw, calc(162svh - 100px));
+    mask-image: linear-gradient(
+      to bottom,
+      black 74%,
+      rgb(0 0 0 / 88%) 88%,
+      transparent
+    );
+  }
+}
+
 @media (max-width: 900px) {
   .hero-copy {
     max-width: 70%;
@@ -794,10 +831,10 @@ th small {
   .portrait {
     left: 0;
     bottom: auto;
-    height: 64%;
+    height: 61%;
   }
   .portrait img {
-    object-position: 76% 22%;
+    object-position: 72% 0%;
   }
   .hero-shade {
     background: linear-gradient(
@@ -817,9 +854,9 @@ th small {
     max-width: 100%;
   }
   .hero-copy h1 {
-    font-size: clamp(56px, 11.8vw, 78px);
-    margin: 16px 0;
-    line-height: 0.99;
+    font-size: clamp(46px, 12.6vw, 68px);
+    margin: 17px 0 18px;
+    line-height: 1.04;
   }
   .hero-copy h1 em {
     max-width: 9em;
@@ -910,7 +947,7 @@ th small {
     min-height: 660px;
   }
   .hero-copy h1 {
-    font-size: 47px;
+    font-size: 44px;
   }
   .actions {
     gap: 5px;
@@ -941,13 +978,19 @@ th small {
     max-height: 850px;
   }
   .portrait {
-    left: 18%;
+    left: 15%;
+    bottom: 12%;
+    mask-image: linear-gradient(to bottom, black 72%, transparent);
   }
   .portrait img {
-    object-position: 67% center;
+    object-position: 58% 0%;
+  }
+  .hero-inner {
+    align-items: flex-end;
+    padding-bottom: 94px;
   }
   .hero-copy h1 {
-    font-size: clamp(65px, 9vw, 90px);
+    font-size: clamp(59px, 7.5vw, 75px);
   }
   .hero-portal {
     display: none;
