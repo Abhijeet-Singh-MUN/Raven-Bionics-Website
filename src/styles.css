@@ -462,13 +462,20 @@ h2,
 }
 .focus-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(18px, 4vw, 62px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 32px clamp(18px, 5vw, 80px);
   margin-top: 25px;
 }
 .focus-grid > div {
   border-top: 1px solid var(--rule);
   padding-top: 20px;
+}
+.focus-status {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--quiet);
 }
 .focus-grid h3 {
   font-size: clamp(30px, 2.8vw, 43px);
@@ -522,16 +529,8 @@ footer {
 .demo-frame figcaption {
   justify-content: flex-start;
   color: var(--mist);
-  font-size: 11px;
-}
-.demo-frame figcaption span {
-  margin-left: auto;
-}
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--mint);
+  font-size: 13px;
+  letter-spacing: normal;
 }
 .study-finding {
   margin-top: 32px;

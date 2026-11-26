@@ -35,46 +35,54 @@ export const home = {
       "One environment, three illustrative representations. These conceptual views are not sensor-derived reconstruction.",
   },
   focus: [
-    [
-      "Spatial understanding",
-      "Studying how partial observations become useful spatial and semantic representations in experimental environments.",
-    ],
-    [
-      "Adaptive memory and attention",
-      "Investigating which information to retain, refine or revisit under limited sensing and computation.",
-    ],
-    [
-      "Coordinated autonomy",
-      "Exploring how multiple agents share environmental context and allocate sensing effort across changing tasks.",
-    ],
+    {
+      status: "Current research",
+      title: "Adaptive spatial memory",
+      text: "Where does another observation add detail? Our simulator stores range returns in a sparse grid and refines voxel maps around individual objects. A 3D semantic scene graph relates the objects in memory.",
+    },
+    {
+      status: "Current research",
+      title: "Attention in multi-agent systems",
+      text: "Simulated agents share observations of their surroundings. A heuristic directs additional sensing toward regions of interest, so we can examine what each revisit adds to the shared map.",
+    },
+    {
+      status: "Under investigation",
+      title: "Machine learning for selective sensing",
+      text: "Could a learned policy choose better places to look? We plan to compare its choices with the current heuristic under the same sensing budget and measure how much new evidence each collects.",
+    },
+    {
+      status: "Research horizon",
+      title: "World models for Physical AI",
+      text: "If one robot sees a change, how might the rest of its team anticipate it? We want to study collective intelligence by asking how agents could share predictions from learned world models.",
+    },
   ],
   demo: {
     studySlug: "adaptive-3d-reconstruction",
-    label: "Research in motion",
+    label: "Experimental platform",
     title: "Inside the research system.",
-    text: "Our experimental multi-agent simulation connects simulated range sensing, spatial memory, semantic relationships and task-directed attention. Instrumented studies examine system performance and computational trade-offs.",
+    text: "The simulator casts range rays and derives camera detections from scene metadata. It supplies object identities and poses. Agents use the resulting spatial memory to choose where to sense next. Telemetry records the returns and computational workload of those choices.",
   },
   evidence: {
     label: "Experimental evidence",
     title: "From the lab.",
-    text: "Controlled experiments, research notes and measured engineering trade-offs from our evolving intelligent-systems platform.",
+    text: "Two studies follow the same spatial memory from different angles. The first shows what repeated observations retain. The second measures the time and memory it takes to maintain that record.",
   },
   outlook: {
     label: "Research outlook",
     title: "Beyond the current experiments.",
     applications:
-      "Research into adaptive representations and coordinated intelligence may inform robotics, infrastructure analysis, scientific simulation and other dynamic systems. These are potential applications, not announced products or field deployments.",
+      "An inspection robot has limited time to revisit a structure. Which surface needs another pass? Similar questions about allocating observations arise in industrial monitoring, scientific simulation and decision support.",
     future:
-      "We intend to investigate learned multimodal perception, predictive spatial and temporal models, resource-aware decision-making and coordination across intelligent systems. These are future research directions, not established capabilities.",
+      "For predictive intelligence, we want to test whether combining different kinds of sensor data can help an agent anticipate its next observation. Further work in Agentic AI would ask how a language instruction could guide a team’s sensing priorities over a longer task.",
   },
   about: {
     label: "The organization",
     title: "About Raven Bionics.",
-    text: "Raven Bionics is a founder-led, independent research and development venture investigating how intelligent systems perceive, represent and respond to complex environments. Current experiments focus on spatial intelligence and coordinated autonomy, with wider interests in adaptive and predictive intelligence.",
+    text: "Raven Bionics is an independent, founder-led research and development venture studying spatial intelligence for autonomous systems. We use simulation to observe what agents remember, test how they direct attention and measure the computational cost of those decisions.",
   },
   contact: {
     title: "Research inquiries",
-    text: "For engineering questions and research collaboration, reach us through the project repository.",
+    text: "For questions about the methods, or to discuss a research collaboration, open a public inquiry in the project repository.",
   },
 };
 

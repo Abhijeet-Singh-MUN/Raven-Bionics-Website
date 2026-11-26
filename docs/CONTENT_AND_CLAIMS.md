@@ -8,6 +8,10 @@ Edit company identity, contact and hero copy in `src/content/site.ts`. Founder, 
 
 Add to `studies` in `src/content/research.ts` with a stable slug, category, display date, title, summary, figure, sections and source links. The archive, permanent article and sitemap are generated automatically. Set the homepage demo's studySlug to select a featured entry. A record can include the existing workload comparison table via resultsTable. Add new measurement tables with their own definitions and scope. Dates describe the study or catalogue publication as documented in its source notes.
 
+## Research program
+
+The homepage labels each theme by evidence level. **Current research** covers implemented simulation methods documented in the case studies. **Under investigation** identifies a research question and the comparison needed to answer it. **Research horizon** covers longer-term directions such as learned world models for Physical AI. Potential applications describe settings where the questions arise. Add public methods and results before moving a theme into current research.
+
 ## Evidence
 
 - Experiment 05 is the editorial catalogue label supplied in the specification. Its plate shows a controlled fixture run against the simulator's actual spatial memory implementation. The 2,048 seed returns and 1,728 surface or mixed leaves describe different stages. It does not show a field trial or a recording of a browser run numbered 5.

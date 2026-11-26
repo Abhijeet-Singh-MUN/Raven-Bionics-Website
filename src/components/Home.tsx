@@ -159,8 +159,9 @@ export function Focus() {
           <Kicker>Research focus</Kicker>
         </h2>
         <div className="focus-grid">
-          {home.focus.map(([title, text]) => (
+          {home.focus.map(({ status, title, text }) => (
             <div key={title}>
+              <span className="focus-status">{status}</span>
               <h3>{title}</h3>
               <p>{text}</p>
             </div>
@@ -205,9 +206,8 @@ export function ResearchDemo({ to }: { to: LinkTo }) {
             />
           )}
           <figcaption>
-            <i className="status-dot" />
-            {media.demo.caption || "Simulated spatial memory"}
-            <span>{study.category}</span>
+            {media.demo.caption ||
+              (media.demo.video ? "Simulation recording" : study.figure.caption)}
           </figcaption>
         </figure>
       </div>
@@ -240,9 +240,9 @@ export function Outlook() {
         <div className="section-intro">
           <h2>{home.outlook.title}</h2>
           <div>
-            <h3>Possible applications</h3>
+            <h3>Potential applications</h3>
             <p>{home.outlook.applications}</p>
-            <h3>Future investigations</h3>
+            <h3>Longer-term research</h3>
             <p>{home.outlook.future}</p>
           </div>
         </div>
