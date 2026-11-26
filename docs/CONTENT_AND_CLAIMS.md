@@ -4,9 +4,9 @@ Raven Bionics is a founder-led independent R&D venture. The site describes exper
 
 ## Editing
 
-Edit company identity, contact and hero copy in `src/content/site.ts`. Founder, official company details and email can stay empty. The current public contact route is the website repository's enabled GitHub Issues page. It is public and requires a GitHub account to post. Set an approved email to use mailto instead. No private contact channel has been supplied.
+Edit company identity, contact and hero copy in `src/content/site.ts`. Founder, official company details and email can stay empty. The founder supplied ravenbionics@gmail.com as the public contact address on 26 November 2026; footer and navigation direct to this email. Confirm mailbox access and test receiving before production publication.
 
-Add to `studies` in `src/content/research.ts` with a stable slug, category, display date, title, summary, figure, sections and source links. The archive, permanent article and sitemap are generated automatically. Set the homepage demo's studySlug to select a featured entry. A record can include the existing workload comparison table via resultsTable. Add new measurement tables with their own definitions and scope. Dates describe the study or catalogue publication as documented in its source notes.
+Add to `studies` in `src/content/research.ts` with a stable slug, category, display date, title, summary, optional figure, sections and internal provenance. Imported founder writing uses `kind: "article"`, `publishedAt` for ordering, and `originalUrl` for a discreet original LinkedIn publication link. The public research pages deliberately do not show a general Sources section; verified experimental notes and CSV supporting numerical claims remain stored with media. The archive, permanent article and sitemap are generated automatically. Set the homepage demo's studySlug to select a featured entry. A record can include the existing workload comparison table via resultsTable. Add new measurement tables with their own definitions and scope. Dates describe the study or catalogue publication as documented in its source notes.
 
 ## Research program
 
@@ -20,3 +20,9 @@ The homepage labels each theme by evidence level. **Current research** covers im
 - The browser's throughput, matched-fixture CPU time and retained JS heap describe different quantities. Higher throughput does not establish accuracy or field performance. Retain each metric's units, baseline, workload and memory trade-off when revising copy.
 
 Terrain and raven imagery are illustrative. Future investigations and potential applications have their own sections. Record supporting evidence before promoting an objective to a demonstrated result. The source simulator repository is private; publish only reviewed extracts suitable for this public website.
+
+## Editorial status (26 November 2026)
+
+The archive now groups two measured technical studies and four shortened, founder-authored LinkedIn writings/development notes. Publication metadata and original URLs are preserved where available. Website titles/teasers are edited summaries, not verbatim reproductions or peer-reviewed paper claims. New featured artwork is an explanatory architecture illustration, not the earlier box fixture, simulator recording or real robot test.
+
+The private Raven strategy repository is not a public source; do not copy business scenarios, personal information or confidential future plans into this website. Keep current implementation claims distinct from potential Physical AI/world model/ML research directions.
