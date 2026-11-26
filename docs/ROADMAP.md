@@ -22,3 +22,18 @@ Chrome rendered the production build at 1440 × 900, 820 × 1180, 390 × 844 and
 4. Check Safari and Firefox on physical devices, and measure Core Web Vitals at the production URL. Target LCP ≤ 2.5 s, INP ≤ 200 ms and CLS ≤ 0.1. Field performance depends on hosting, caching, devices and networks.
 
 Future research directions belong in the outlook until supported by evaluated implementations. V1 does not require a backend or a live simulator.
+
+
+## Strategy-to-launch update — 26 November 2026
+
+**V1 design is user-accepted.** Research-led positioning/copy updated in `src/content/site.ts`, without changing the visual identity or eye/terrain animations. Provisional outward identity: **Spatial Intelligence for Autonomous Systems**; underlying research-led mandate is wider. The company's current simulation-based evidence must remain explicitly distinct from future model/control research; do not import the private strategic reports into this public repo.
+
+**New automated validation:** `.github/workflows/validate.yml` runs npm ci, npm run build and npm test on main and PRs. Confirm the actual GitHub Actions run result before claiming passing CI.
+
+**Still required to call this published:** choose an authorized hosting provider, set real `SITE_URL`, deploy and verify its HTTPS URL. Professional contact remains an unapproved public GitHub Issues fallback; select a genuine contact address (do not invent one). The logo remains provisional and is NOT a release blocker; genuine simulator footage is optional for initial launch because the research plate is labeled.
+
+**Practical deployment option:** Cloudflare Pages Git integration (https://developers.cloudflare.com/pages/get-started/git-integration/), build command `npm run build`, output `dist`, Node 22. Vercel Hobby is restricted to noncommercial use; confirm plan suitability before deploying a company site. A source push is not a deployment confirmation.
+
+**Release verification:** homepage, `/research/`, the two study articles, anchors, mobile/desktop and reduced-motion, correct canonical/sitemap/OG from SITE_URL, usable contact, HTTPS, no broken assets. Once verified, record release URL, commit and test outcomes here.
+
+**Not a reason to postpone job applications:** research work, additional assets, logo revision, and future website improvements.
