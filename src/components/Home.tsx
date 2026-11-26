@@ -49,7 +49,7 @@ export function Hero({ to }: { to: LinkTo }) {
             <h1 id="hero-title">
               {hero.title}
               <br />
-              <em>{hero.emphasis}</em>
+              <span className="hero-emphasis">{hero.emphasis}</span>
             </h1>
             <p>{hero.intro}</p>
             <div className="actions">
