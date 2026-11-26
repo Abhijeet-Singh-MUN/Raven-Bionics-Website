@@ -13,21 +13,23 @@ export function installMotion() {
   const worldRoot = document.querySelector<HTMLElement>("[data-world]");
   if (!journey || !stage || !portrait || !image || !worldRoot) return;
   const world = worldRoot;
+  const header = document.querySelector<HTMLElement>(".masthead");
+  const perception = document.getElementById("perception");
   const scene = world.querySelector<HTMLElement>(".scene")!;
   const layers = [...world.querySelectorAll<HTMLElement>("[data-layer]")];
   const buttons = [
     ...world.querySelectorAll<HTMLButtonElement>("[data-state]"),
   ];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)");
-  const compact = matchMedia("(max-width: 700px)");
-  const tabletPortrait = matchMedia(
-    "(max-width: 1000px) and (orientation: portrait)",
+  const responsiveHero = matchMedia(
+    "(max-width: 700px), (max-width: 1000px) and (orientation: portrait), (max-width: 1000px) and (max-height: 600px)",
   );
   let frame = 0;
   let autoIndex = -1;
   let currentIndex = 0;
   let manualScrollY: number | null = null;
   let eye = [0, 0];
+  let baseEye = [0, 0];
   let mastInView = -1;
 
   function show(
@@ -55,17 +57,69 @@ export function installMotion() {
     }),
   );
 
+  function paintHeader(
+    heroBox: DOMRect,
+    heroProgress: number,
+    cinematic: boolean,
+  ) {
+    if (!header) return;
+    const woodland = document.documentElement.dataset.theme === "forest-parchment-woodland";
+    if (!woodland) {
+      header.style.removeProperty("--woodland-nav-alpha");
+      header.style.removeProperty("--woodland-nav-visibility");
+      document.documentElement.style.removeProperty("--woodland-header-height");
+      header.inert = false;
+      header.removeAttribute("aria-hidden");
+      header.removeAttribute("data-cinematic-hidden");
+      return;
+    }
+
+    const menu = header.querySelector<HTMLButtonElement>(".menu-toggle");
+    if (menu?.getAttribute("aria-expanded") !== "true") {
+      document.documentElement.style.setProperty(
+        "--woodland-header-height",
+        header.offsetHeight + "px",
+      );
+    }
+    // Complete the fade before the aperture starts opening at 40% hero progress.
+    const fadeOut = cinematic ? easeBetween(heroProgress, 0.24, 0.4) : 0;
+    const sectionTop = perception?.getBoundingClientRect().top ?? heroBox.bottom;
+    const restore = easeBetween(
+      window.innerHeight - sectionTop,
+      0,
+      Math.min(180, window.innerHeight * 0.2),
+    );
+    const visibility = cinematic ? Math.max(1 - fadeOut, restore) : 1;
+    const background = reduced.matches || restore > 0
+      ? 1
+      : cinematic
+        ? easeBetween(heroProgress, 0, 0.24)
+        : clamp(-heroBox.top / Math.max(1, heroBox.height - header.offsetHeight));
+
+    header.style.setProperty("--woodland-nav-alpha", String(background));
+    header.style.setProperty("--woodland-nav-visibility", String(visibility));
+    const inactive = visibility < 1;
+    if (inactive && !header.inert) {
+      // Remove focus before hiding the subtree from keyboard/accessibility APIs.
+      if (header.contains(document.activeElement) && document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      menu?.setAttribute("aria-expanded", "false");
+    }
+    header.inert = inactive;
+    if (inactive) header.setAttribute("aria-hidden", "true");
+    else header.removeAttribute("aria-hidden");
+    header.toggleAttribute("data-cinematic-hidden", visibility === 0);
+  }
+
   const update = () => {
     frame = 0;
     const heroBox = journey.getBoundingClientRect();
     const distance = heroBox.height - stage.offsetHeight;
-    if (
-      distance > 0 &&
-      !reduced.matches &&
-      !compact.matches &&
-      !tabletPortrait.matches &&
-      heroBox.bottom >= 0
-    ) {
+    const cinematic = distance > 0 && !reduced.matches;
+    const heroProgress = distance > 0 ? clamp(-heroBox.top / distance) : 0;
+    paintHeader(heroBox, heroProgress, cinematic);
+    if (cinematic && heroBox.bottom >= 0) {
       // Fill the area vacated by the scrolling masthead before starting the iris.
       const mast = Math.max(0, heroBox.top);
       if (mast !== mastInView) {
@@ -73,11 +127,27 @@ export function installMotion() {
         stage.style.setProperty("--mast-in-view", mast + "px");
         measureEye();
       }
-      const p = clamp(-heroBox.top / distance);
+      const p = heroProgress;
       const reveal = easeBetween(p, 0.4, 0.96);
+      if (responsiveHero.matches) {
+        const camera = easeBetween(p, 0.03, 0.7);
+        const landscape = stage.clientWidth > stage.clientHeight;
+        const target = [
+          stage.clientWidth * (landscape ? 0.62 : 0.5),
+          stage.clientHeight * (landscape ? 0.4 : 0.34),
+        ];
+        const shift = target.map((value, axis) => (value - baseEye[axis]) * camera);
+        portrait.style.setProperty("--camera-x", shift[0] + "px");
+        portrait.style.setProperty("--camera-y", shift[1] + "px");
+        eye = baseEye.map((value, axis) => value + shift[axis]);
+      } else {
+        portrait.style.removeProperty("--camera-x");
+        portrait.style.removeProperty("--camera-y");
+        eye = [...baseEye];
+      }
       stage.style.setProperty(
         "--zoom",
-        String(1 + 1.45 * easeBetween(p, 0.03, 0.87)),
+        String(1 + (responsiveHero.matches ? 1.1 : 1.45) * easeBetween(p, 0.03, 0.87)),
       );
       stage.style.setProperty(
         "--detail-alpha",
@@ -112,36 +182,29 @@ export function installMotion() {
       stage.style.setProperty("--approach", String(1 + 0.035 * offset));
       stage.style.setProperty("--eye-x", eye[0] + "px");
       stage.style.setProperty("--eye-y", eye[1] + "px");
-    } else if (compact.matches || tabletPortrait.matches || reduced.matches) {
+    } else if (reduced.matches) {
       mastInView = -1;
       stage.style.removeProperty("--mast-in-view");
       stage.style.removeProperty("--zoom");
       stage.style.removeProperty("--detail-alpha");
       stage.style.removeProperty("--copy-alpha");
       stage.style.removeProperty("--portal");
+      portrait.style.removeProperty("--camera-x");
+      portrait.style.removeProperty("--camera-y");
     }
     const box = world.getBoundingClientRect();
     const distanceWorld = box.height - scene.offsetHeight;
     if (distanceWorld > 2 && !reduced.matches) {
       // Progress begins when the figure reaches its centered sticky position.
       const pinTop = parseFloat(getComputedStyle(scene).top);
-      // The spacer's content height is playback; its padding is the final hold.
-      const playbackDistance = parseFloat(getComputedStyle(world, "::after").height);
-      const progress = clamp((pinTop - box.top) / playbackDistance);
-      // Equal thirds of playback, with identical blends centered on each boundary.
-      // The independent final hold starts only after all three thirds complete.
-      const stageShare = 1 / layers.length;
-      const halfBlend = stageShare * 0.15;
-      const structure = easeBetween(
-        progress,
-        stageShare - halfBlend,
-        stageShare + halfBlend,
-      );
-      const observations = easeBetween(
-        progress,
-        2 * stageShare - halfBlend,
-        2 * stageShare + halfBlend,
-      );
+      // 324svh is pinned (90%); the next 36svh is the natural document release.
+      const pinnedDistance = parseFloat(getComputedStyle(world, "::after").height);
+      const sequenceDistance = pinnedDistance / 0.9;
+      const progress = clamp((pinTop - box.top) / sequenceDistance);
+      // Dominant intervals: Environment 22%, Structure 34%, Observations 34%.
+      // Identical 54svh crossfades straddle the 22% and 56% boundaries.
+      const structure = easeBetween(progress, 0.145, 0.295);
+      const observations = easeBetween(progress, 0.485, 0.635);
       const weights = [
         1 - structure,
         structure * (1 - observations),
@@ -163,22 +226,39 @@ export function installMotion() {
   function schedule() {
     if (!frame) frame = requestAnimationFrame(update);
   }
-  // The stylesheet uses percentage object positions, relative to the excess cover size.
   const measureEye = () => {
-    // Attribute dimensions describe the master's aspect even when the small source is selected.
-    const w = Number(image.getAttribute("width")),
-      h = Number(image.getAttribute("height"));
-    const scale = Math.max(portrait.clientWidth / w, portrait.clientHeight / h);
     const [x, y] = (image.dataset.eye || "").split(",").map(Number);
-    const [alignX, alignY] = getComputedStyle(image)
-      .objectPosition.split(" ")
-      .map(parseFloat);
-    const pupilX =
-      ((portrait.clientWidth - w * scale) * alignX + w * scale * x) / 100;
-    const pupilY =
-      ((portrait.clientHeight - h * scale) * alignY + h * scale * y) / 100;
+    let pupilX: number, pupilY: number;
+    if (responsiveHero.matches) {
+      // Resolve object-fit and object-position in the image's untransformed box.
+      // Its parent zooms about this pupil; camera translation is applied afterward.
+      const w = image.naturalWidth || Number(image.getAttribute("width"));
+      const h = image.naturalHeight || Number(image.getAttribute("height"));
+      const css = getComputedStyle(image);
+      let sx = image.clientWidth / w, sy = image.clientHeight / h;
+      if (css.objectFit !== "fill") {
+        const scale = css.objectFit === "cover" ? Math.max(sx, sy)
+          : css.objectFit === "none" ? 1
+          : css.objectFit === "scale-down" ? Math.min(1, sx, sy)
+          : Math.min(sx, sy);
+        sx = sy = scale;
+      }
+      const [px, py] = css.objectPosition.split(" ");
+      const align = (value: string, space: number) =>
+        value.endsWith("%") ? space * parseFloat(value) / 100 : parseFloat(value) || 0;
+      pupilX = image.offsetLeft + align(px, image.clientWidth - w * sx) + w * sx * x / 100;
+      pupilY = image.offsetTop + align(py, image.clientHeight - h * sy) + h * sy * y / 100;
+    } else {
+      // Preserve the approved desktop projection and camera arithmetic exactly.
+      const w = Number(image.getAttribute("width")), h = Number(image.getAttribute("height"));
+      const scale = Math.max(portrait.clientWidth / w, portrait.clientHeight / h);
+      const [alignX, alignY] = getComputedStyle(image).objectPosition.split(" ").map(parseFloat);
+      pupilX = ((portrait.clientWidth - w * scale) * alignX + w * scale * x) / 100;
+      pupilY = ((portrait.clientHeight - h * scale) * alignY + h * scale * y) / 100;
+    }
     portrait.style.transformOrigin = pupilX + "px " + pupilY + "px";
-    eye = [portrait.offsetLeft + pupilX, portrait.offsetTop + pupilY];
+    baseEye = [portrait.offsetLeft + pupilX, portrait.offsetTop + pupilY];
+    eye = [...baseEye];
   };
   const measure = () => {
     measureEye();
@@ -214,11 +294,15 @@ export function installMotion() {
       }
       measure();
     };
-    compact.addEventListener("change", reset);
+    responsiveHero.addEventListener("change", reset);
     reduced.addEventListener("change", reset);
     reset();
   }
-  new ResizeObserver(measure).observe(scene);
+  const sizeObserver = new ResizeObserver(measure);
+  sizeObserver.observe(scene);
+  if (header) sizeObserver.observe(header);
+  window.addEventListener("raven-theme-change", measure);
+  image.addEventListener("load", measure);
   window.addEventListener("resize", measure, { passive: true });
   measure();
 }

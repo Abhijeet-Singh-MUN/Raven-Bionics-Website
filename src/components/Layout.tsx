@@ -42,7 +42,6 @@ export function Layout({
   children: ReactNode;
 }) {
   const to = urlFrom(route);
-  const defaultThemeLabel = themeOptions.find((theme) => theme.id === themeComparison.defaultTheme)!.label;
   return (
     <>
       <a className="skip" href="#main">
@@ -85,16 +84,37 @@ export function Layout({
               </a>
             ))}
             {themeComparison.enabled && (
-              <div className="theme-controls" hidden>
-                <label htmlFor="theme-select">Theme</label>
-                <select id="theme-select" defaultValue={themeComparison.defaultTheme}>
-                  {themeOptions.map((theme) => (
-                    <option key={theme.id} value={theme.id}>{theme.label}</option>
-                  ))}
-                </select>
-                <button type="button" data-theme-reset aria-label={"Reset theme to " + defaultThemeLabel}>
-                  Reset
+              <div className="theme-control" hidden>
+                <button
+                  id="theme-trigger"
+                  className="theme-trigger"
+                  type="button"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                  aria-controls="theme-menu"
+                >
+                  Theme
                 </button>
+                <div id="theme-menu" className="theme-menu" role="menu" aria-label="Color theme" hidden>
+                  {themeOptions.map((theme) => (
+                    <button
+                      key={theme.id}
+                      type="button"
+                      className="theme-choice"
+                      role="menuitemradio"
+                      aria-checked={theme.id === themeComparison.defaultTheme}
+                      aria-label={theme.label + (theme.id === themeComparison.defaultTheme ? ", recommended default" : "")}
+                      data-theme-choice={theme.id}
+                      data-preferred={theme.id === themeComparison.defaultTheme ? "true" : undefined}
+                      tabIndex={-1}
+                    >
+                      <span>{theme.label}</span>
+                      <svg className="theme-check" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="m5 12 4 4L19 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
           </nav>

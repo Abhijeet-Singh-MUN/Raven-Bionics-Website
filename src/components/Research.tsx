@@ -47,6 +47,9 @@ export function ResearchIndex({ to }: { to: LinkTo }) {
   return (
     <div className="section-light archive pad-section">
       <div className="shell">
+        <a className="back-link" href={to("#from-the-lab")}>
+          ← From the Lab
+        </a>
         <Kicker>Research archive</Kicker>
         <div className="section-intro">
           <h1>Research.</h1>

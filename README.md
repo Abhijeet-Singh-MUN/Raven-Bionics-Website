@@ -42,7 +42,7 @@ npm.cmd test
 
 ## Local palette comparison
 
-On the local `preview/eight-theme-comparison` branch, run `npm run dev -- --port 4193 --strictPort` and open http://127.0.0.1:4193/. Use Theme in the navigation. The temporary default is Forest & Parchment. Previously saved selections are retained. Reset clears the saved choice.
+On the local `preview/eight-theme-comparison` branch, run `npm run dev -- --port 4193 --strictPort` and open http://127.0.0.1:4193/. Use Theme in the navigation. The preferred default is Forest & Parchment — Woodland, listed first. Previously saved selections are retained. Open Theme to choose a palette; the oak-gold Woodland entry identifies the preferred default and a checkmark identifies the current choice.
 
 The comparison feature flag and option list live in `src/content/themes.ts`. Palette tokens live in `src/styles.css`. The branch's static build also includes the comparison while the flag is enabled, so production integration requires an explicit palette/selector decision.
 

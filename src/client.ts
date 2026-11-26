@@ -34,6 +34,6 @@ if (toggle && nav) {
     )
       close();
   });
-  matchMedia("(max-width: 700px)").addEventListener("change", close);
+  matchMedia("(max-width: 700px), (max-width: 1000px) and (max-height: 600px)").addEventListener("change", close);
 }
 installMotion();

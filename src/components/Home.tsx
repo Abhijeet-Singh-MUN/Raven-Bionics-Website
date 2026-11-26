@@ -246,7 +246,7 @@ export function ResearchDemo({ to }: { to: LinkTo }) {
 }
 export function Evidence({ to }: { to: LinkTo }) {
   return (
-    <section className="section-light pad-section">
+    <section id="from-the-lab" className="section-light pad-section">
       <div className="shell">
         <Kicker>{home.evidence.label}</Kicker>
         <div className="section-intro">

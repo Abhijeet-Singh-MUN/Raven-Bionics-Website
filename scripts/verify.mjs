@@ -133,12 +133,12 @@ test("theme restoration validates stored choices before page styling", () => {
   const script = html.match(/<script id="theme-bootstrap">([\s\S]*?)<\/script>/)?.[1];
   // Disabling the comparison flag removes the control and bootstrap entirely.
   if (!script) {
-    assert.ok(!html.includes('id="theme-select"'));
+    assert.ok(!html.includes('id="theme-trigger"'));
     assert.ok(!html.includes('data-theme='));
     return;
   }
   assert.ok(html.indexOf('id="theme-bootstrap"') < html.indexOf('rel="stylesheet"'));
-  const options = [...html.matchAll(/<option value="([^"]+)"/g)].map((match) => match[1]);
+  const options = [...html.matchAll(/data-theme-choice="([^"]+)"/g)].map((match) => match[1]);
   assert.equal(new Set(options).size, options.length);
   assert.ok(options.length > 0);
   const defaultTheme = html.match(/<html[^>]*data-theme="([^"]+)"/)?.[1];
