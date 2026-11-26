@@ -1029,3 +1029,31 @@ th small {
     display: none;
   }
 }
+
+/* Research archive: clear grouping and readable provenance. */
+.archive-group-title {
+  font-family: var(--sans);
+  font-size: clamp(19px, 2vw, 25px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-top: 62px;
+}
+.archive-group-title + .study-list { margin-top: 15px; }
+.study-id .study-category { display: block; margin-top: 0; font-weight: 650; letter-spacing: .035em; }
+.study-id .study-date { display: block; margin-top: 8px; font-weight: 400; letter-spacing: .012em; }
+.original-publication {
+  padding: 20px 0;
+  margin-top: 34px;
+  border-top: 1px solid var(--rule);
+}
+.original-publication a {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  color: var(--ink);
+}
+#site-nav .nav-back { white-space: nowrap; }
+@media (max-width: 700px) {
+  .archive-group-title { margin-top: 46px; }
+  .study-id .study-date { display: inline-block; margin-left: 12px; }
+  #site-nav .nav-back { order: -1; }
+}
