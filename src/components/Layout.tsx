@@ -59,11 +59,23 @@ export function Layout({
             Menu <span aria-hidden="true">☰</span>
           </button>
           <nav aria-label="Main navigation" id="site-nav">
+            {route.startsWith("research/") && (
+              <a
+                className="nav-back"
+                href={to(route === "research/" ? "" : "research/")}
+                aria-label={route === "research/" ? "Back to home" : "Back to research archive"}
+              >
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M20 12H5m6-6-6 6 6 6" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span>Back</span>
+              </a>
+            )}
             {navigation.map((item) => (
               <a
                 key={item.label}
                 href={to(item.to)}
-                aria-current={route === item.to ? "page" : undefined}
+                aria-current={route === item.to || (item.to === "" && route === "") ? "page" : undefined}
                 className={item.label === "Contact" ? "contact-nav" : ""}
               >
                 {item.label}
