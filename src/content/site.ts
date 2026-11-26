@@ -1,7 +1,7 @@
 export const company = {
   name: "Raven Bionics",
   description:
-    "A founder-led robotics and AI venture researching how autonomous machines perceive, represent and interact with the physical world.",
+    "A founder-led research venture investigating spatial intelligence, adaptive representations and coordinated autonomous systems.",
   founder: "",
   officialDetails: "",
   email: "",
@@ -19,58 +19,58 @@ export const navigation = [
 
 export const home = {
   hero: {
-    label: "Independent robotics research",
+    label: "Independent research & development",
     title: "Spatial intelligence",
     emphasis: "for autonomous systems.",
     intro:
-      "We study how autonomous machines perceive the physical world, build spatial memory and decide where to look next.",
+      "We investigate how intelligent systems perceive their environments, build useful spatial memory, direct attention and adapt decisions under real resource constraints.",
     primary: "Explore our research",
     secondary: "View experiments",
   },
   problem: {
     label: "The perception problem",
     title: "Intelligence begins with perception.",
-    text: "A machine sees only fragments of its surroundings. Which observations should it keep, how much detail does it need, and when should it look again?",
+    text: "A machine observes only part of its surroundings. What information matters, which details deserve memory, and when should it observe again?",
     caption:
-      "One terrain, three representations. An illustration of how a scene can be described at different levels of detail.",
+      "One environment, three illustrative representations. These conceptual views are not sensor-derived reconstruction.",
   },
   focus: [
     [
-      "Spatial perception",
-      "Interpreting partial observations from simulated range and camera sensors.",
+      "Spatial understanding",
+      "Studying how partial observations become useful spatial and semantic representations in experimental environments.",
     ],
     [
-      "Adaptive memory",
-      "Allocating spatial detail around objects as new evidence arrives.",
+      "Adaptive memory and attention",
+      "Investigating which information to retain, refine or revisit under limited sensing and computation.",
     ],
     [
-      "Coordinated attention",
-      "Directing sensing effort across agents with a shared view of their environment.",
+      "Coordinated autonomy",
+      "Exploring how multiple agents share environmental context and allocate sensing effort across changing tasks.",
     ],
   ],
   demo: {
     studySlug: "adaptive-3d-reconstruction",
     label: "Research in motion",
     title: "Inside the research system.",
-    text: "Our simulation prototypes connect sensing, spatial memory and task selection. Instrumentation lets us examine what the agents retain and the computational cost of updating it.",
+    text: "Our experimental multi-agent simulation connects simulated range sensing, spatial memory, semantic relationships and task-directed attention. Instrumented studies examine system performance and computational trade-offs.",
   },
   evidence: {
     label: "Experimental evidence",
     title: "From the lab.",
-    text: "Experiments and technical notes from our ongoing work in simulation.",
+    text: "Controlled experiments, research notes and measured engineering trade-offs from our evolving intelligent-systems platform.",
   },
   outlook: {
     label: "Research outlook",
     title: "Beyond the current experiments.",
     applications:
-      "Inspection, infrastructure monitoring and autonomous exploration could all benefit from machines that retain useful spatial context. These are potential applications of the research.",
+      "Research into adaptive representations and coordinated intelligence may inform robotics, infrastructure analysis, scientific simulation and other dynamic systems. These are potential applications, not announced products or field deployments.",
     future:
-      "We plan to investigate learned perception, predictive spatial models and parameter tuning, and to examine how shared representations behave across robotic embodiments.",
+      "We intend to investigate learned multimodal perception, predictive spatial and temporal models, resource-aware decision-making and coordination across intelligent systems. These are future research directions, not established capabilities.",
   },
   about: {
     label: "The organization",
     title: "About Raven Bionics.",
-    text: "Raven Bionics is a founder-led, independent research and development venture. We build experimental systems to understand how machines can maintain useful models of the physical world within a finite computing budget.",
+    text: "Raven Bionics is a founder-led, independent research and development venture investigating how intelligent systems perceive, represent and respond to complex environments. Current experiments focus on spatial intelligence and coordinated autonomy, with wider interests in adaptive and predictive intelligence.",
   },
   contact: {
     title: "Research inquiries",
