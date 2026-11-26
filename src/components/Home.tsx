@@ -173,7 +173,7 @@ export function Focus() {
 }
 export function ResearchDemo({ to }: { to: LinkTo }) {
   const study = studies.find((entry) => entry.slug === home.demo.studySlug)!;
-  const poster = to((media.demo.poster || study.figure.src).replace(/^\//, ""));
+  const poster = to((media.demo.poster || study.figure?.src || "media/research/system-architecture.svg").replace(/^\//, ""));
   return (
     <section id="experiments" className="demo pad-section">
       <div className="shell demo-grid">
@@ -199,7 +199,7 @@ export function ResearchDemo({ to }: { to: LinkTo }) {
           ) : (
             <img
               src={poster}
-              alt={media.demo.alt || study.figure.alt}
+              alt={media.demo.alt || study.figure?.alt || "Experimental spatial intelligence architecture diagram"}
               width="1440"
               height="760"
               loading="lazy"
@@ -207,7 +207,7 @@ export function ResearchDemo({ to }: { to: LinkTo }) {
           )}
           <figcaption>
             {media.demo.caption ||
-              (media.demo.video ? "Simulation recording" : study.figure.caption)}
+              (media.demo.video ? "Simulation recording" : study.figure?.caption || "Experimental system architecture")}
           </figcaption>
         </figure>
       </div>
@@ -227,7 +227,7 @@ export function Evidence({ to }: { to: LinkTo }) {
           <h3>{featuredFinding.title}</h3>
           <p>{featuredFinding.text}</p>
         </aside>
-        <StudyList to={to} />
+        <StudyList to={to} limit={3} />
       </div>
     </section>
   );
