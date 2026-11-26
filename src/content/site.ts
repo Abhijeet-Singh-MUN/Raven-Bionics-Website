@@ -32,7 +32,7 @@ export const home = {
     title: "Intelligence begins with perception.",
     text: "A machine observes only part of its surroundings. What information matters, which details deserve memory, and when should it observe again?",
     caption:
-      "One environment, three illustrative representations. These conceptual views are not sensor-derived reconstruction.",
+      "One environment, three illustrative representations: surfaces, semantic cues and coordinate-colored observations. Objects receive denser samples than terrain. These conceptual views are not sensor-derived reconstruction.",
   },
   focus: [
     {
@@ -103,12 +103,12 @@ export const media = {
     {
       label: "Structure",
       src: "media/world/structure.svg",
-      alt: "Structural lines trace the terrain and station from the same viewpoint.",
+      alt: "Structural lines trace the terrain and station; three callouts identify a terrain ridge, field station and trees.",
     },
     {
       label: "Observations",
       src: "media/world/samples.svg",
-      alt: "Sparse samples mark selected surfaces of the same illustrative landscape.",
+      alt: "XYZ coordinate-colored samples of the same illustrative landscape, with dense tree and infrastructure observations against sparse terrain.",
     },
   ],
   demo: {

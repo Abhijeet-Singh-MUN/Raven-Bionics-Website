@@ -3,6 +3,7 @@ import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import test from "node:test";
+import { runInNewContext } from "node:vm";
 
 const dist = fileURLToPath(new URL("../dist/", import.meta.url));
 function descendants(dir) {
@@ -112,7 +113,7 @@ test("case-study endpoints match medians of the four published records per versi
     assert.ok(page.includes("<td>" + endpoint + "</td>"));
 });
 
-test("theme previews stay out of production and favicon preserves approved paths", () => {
+test("obsolete query previews are removed and favicon preserves approved paths", () => {
   for (const file of files.filter((file) => /\.(js|css)$/.test(file))) {
     assert.ok(
       !/previewTheme|data-preview-theme/.test(readFileSync(file, "utf8")),
@@ -125,4 +126,35 @@ test("theme previews stay out of production and favicon preserves approved paths
   const paths = (svg) => [...svg.matchAll(/ d="([^"]+)"/g)].map((match) => match[1]);
   assert.ok(paths(master).length > 0);
   assert.deepEqual(paths(favicon), paths(master));
+});
+
+test("theme restoration validates stored choices before page styling", () => {
+  const html = readFileSync(join(dist, "index.html"), "utf8");
+  const script = html.match(/<script id="theme-bootstrap">([\s\S]*?)<\/script>/)?.[1];
+  // Disabling the comparison flag removes the control and bootstrap entirely.
+  if (!script) {
+    assert.ok(!html.includes('id="theme-select"'));
+    assert.ok(!html.includes('data-theme='));
+    return;
+  }
+  assert.ok(html.indexOf('id="theme-bootstrap"') < html.indexOf('rel="stylesheet"'));
+  const options = [...html.matchAll(/<option value="([^"]+)"/g)].map((match) => match[1]);
+  assert.equal(new Set(options).size, options.length);
+  assert.ok(options.length > 0);
+  const defaultTheme = html.match(/<html[^>]*data-theme="([^"]+)"/)?.[1];
+  assert.ok(options.includes(defaultTheme));
+  for (const saved of [...options, null, "obsolete-theme", "<script>"]) {
+    const root = { dataset: { theme: defaultTheme } };
+    runInNewContext(script, {
+      document: { documentElement: root },
+      localStorage: { getItem: () => saved },
+    });
+    assert.equal(root.dataset.theme, options.includes(saved) ? saved : defaultTheme);
+  }
+  const root = { dataset: { theme: defaultTheme } };
+  runInNewContext(script, {
+    document: { documentElement: root },
+    localStorage: { getItem: () => { throw new Error("Storage blocked"); } },
+  });
+  assert.equal(root.dataset.theme, defaultTheme);
 });

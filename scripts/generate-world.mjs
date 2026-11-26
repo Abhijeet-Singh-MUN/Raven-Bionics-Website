@@ -47,8 +47,21 @@ function tone(rgb, factor) {
   );
 }
 
-function sampleTriangle(points, count, seed) {
-  let coords = "";
+// Encode normalized world X/Y/Z in the red/green/blue channels respectively.
+// Quantized color buckets keep dense vector observations compact and editable.
+function coordinateColor([x, y, z]) {
+  const unit = (n) => Math.min(1, Math.max(0, n));
+  return (
+    "#" +
+    [x / cols, y / rows, z / 9]
+      .map((n) => Math.round((80 + 175 * unit(n)) / 24) * 24)
+      .map((n) => Math.min(255, n).toString(16).padStart(2, "0"))
+      .join("")
+  );
+}
+
+function sampleTriangle(points, positions, count, seed, detail) {
+  const buckets = new Map();
   for (let i = 0; i < count; i++) {
     let u = noise(i, seed, 7),
       v = noise(i, seed, 4);
@@ -56,22 +69,33 @@ function sampleTriangle(points, count, seed) {
       u = 1 - u;
       v = 1 - v;
     }
-    const xy = [0, 1].map(
-      (axis) =>
-        points[0][axis] * (1 - u - v) +
-        points[1][axis] * u +
-        points[2][axis] * v,
+    const interpolate = (vertices) =>
+      vertices[0].map((_, axis) =>
+        vertices[0][axis] * (1 - u - v) +
+        vertices[1][axis] * u +
+        vertices[2][axis] * v,
+      );
+    const xy = interpolate(points);
+    const color = coordinateColor(interpolate(positions));
+    buckets.set(
+      color,
+      (buckets.get(color) || "") + "M" + xy.map(round).join(" ") + "h.1",
     );
-    coords += "M" + xy.map(round).join(" ") + "h.1";
   }
-  return coords;
+  return [...buckets]
+    .map(([color, d]) =>
+      '<path d="' + d + '" stroke="' + color + '" stroke-width="' +
+      (detail ? "2.3" : "1.4") + '" opacity="' + (detail ? ".96" : ".54") +
+      '" stroke-linecap="round"/>',
+    )
+    .join("");
 }
 
 let seed = 1;
 function surface(
   points,
   color,
-  { line = "#82978b", density = 4, dot = "#b9cec0", detail = false } = {},
+  { line = "#82978b", density = 6, detail = false } = {},
 ) {
   const projected = points.map(project);
   const d = path(projected);
@@ -99,22 +123,13 @@ function surface(
   for (let i = 1; i < points.length - 1; i++)
     sampled += sampleTriangle(
       [projected[0], projected[i], projected[i + 1]],
+      [points[0], points[i], points[i + 1]],
       density,
       seed++,
+      detail,
     );
-  // Opaque base gives the samples the same occlusion as the other renderings.
-  drawing.samples.push(
-    '<path d="' +
-      d +
-      '" fill="#182220"/><path d="' +
-      sampled +
-      '" stroke="' +
-      dot +
-      '" ' +
-      'stroke-width="' +
-      (detail ? "2.35" : "2") +
-      '" stroke-linecap="round"/>',
-  );
+  // Opaque base preserves the common terrain's painter-order occlusion.
+  drawing.samples.push('<path d="' + d + '" fill="#182220"/>' + sampled);
 }
 
 function line(points, world, structure, samples, thickness = 1) {
@@ -126,12 +141,12 @@ function line(points, world, structure, samples, thickness = 1) {
         '<path d="' +
           d +
           '" fill="none" stroke="' +
-          colors[view] +
+          (view === "samples" ? coordinateColor(points[0]) : colors[view]) +
           '" stroke-width="' +
           thickness +
           '"' +
           (view === "samples"
-            ? ' stroke-dasharray="1 5" stroke-linecap="round"'
+            ? ' stroke-dasharray="1 3" stroke-linecap="round"'
             : "") +
           "/>",
       );
@@ -187,8 +202,7 @@ function water(triangle) {
   if (clipped.length >= 3)
     surface(clipped, "#739390", {
       line: "#77958a",
-      density: 2,
-      dot: "#9bc7c1",
+      density: 4,
     });
 }
 
@@ -211,8 +225,7 @@ function ground(triangle, x, y, k) {
           : [126, 132, 111];
   surface(triangle, tone(base, light), {
     line: tone([118, 141, 127], 0.7 + light * 0.22),
-    dot: tone([164, 190, 168], light),
-    density: 4,
+    density: 6,
   });
   water(triangle);
 }
@@ -224,7 +237,6 @@ function rockFace(a, b, index) {
   surface([a, b, bc, ac], tone([67, 77, 74], 0.86 + noise(index, 12) * 0.22), {
     line: "#53655c",
     density: 3,
-    dot: "#88978a",
   });
   for (let i = 1; i < 4; i++) {
     const ratio = i / 4;
@@ -295,12 +307,18 @@ function pine(x, y, z, size) {
           d +
           '" stroke="#779782" stroke-width=".8" fill="#23342b"/>',
       );
-    const hits = sampleTriangle([top, left, right], 3, treeSeed + tier);
-    drawing.samples.push(
-      '<path d="' +
-        hits +
-        '" stroke="#c0d8ac" stroke-width="2.2" stroke-linecap="round"/>',
+    const hits = sampleTriangle(
+      [top, left, right],
+      [
+        [x, y, z + tall * (0.68 + tier * 0.16) / 19],
+        [x - radius / 23.6, y, z + tall * (0.16 + tier * 0.19) / 19],
+        [x + radius / 23.6, y, z + tall * (0.16 + tier * 0.19) / 19],
+      ],
+      24,
+      treeSeed + tier,
+      true,
     );
+    drawing.samples.push(hits);
   }
 }
 
@@ -376,7 +394,7 @@ function cabin(x, y, w, d, z, h) {
   const roof = base.map(([xx, yy]) => [xx, yy, eave]);
   const ridge1 = [x, y + d / 2, peakZ],
     ridge2 = [end, y + d / 2, peakZ];
-  const extra = { detail: true, density: 7, line: "#b0b9a8", dot: "#ecdfb6" };
+  const extra = { detail: true, density: 70, line: "#b0b9a8" };
   surface([base[2], base[3], roof[3], roof[2]], "#929281", extra);
   surface([base[1], base[2], roof[2], ridge2, roof[1]], "#777d73", extra);
   for (let i = 0; i < 4; i++) {
@@ -390,7 +408,7 @@ function cabin(x, y, w, d, z, h) {
         [left, front, z + h * 0.71],
       ],
       "#344541",
-      { detail: true, density: 2 },
+      { detail: true, density: 18 },
     );
   }
   surface([roof[0], roof[1], ridge2, ridge1], "#d4d0ba", extra);
@@ -452,7 +470,7 @@ later(bx + by + 2.7, () => {
       [x, y + d, bz],
     ],
     "#b8ae91",
-    { detail: true, density: 8, dot: "#e1d5ad" },
+    { detail: true, density: 80 },
   );
   for (const xx of [x, x + w]) {
     line(
@@ -495,7 +513,10 @@ for (const view of views) {
     height +
     '"><title>' +
     names[view] +
-    "</title><desc>Conceptual oblique landscape, generated from a common terrain and camera.</desc>" +
+    "</title>" +
+    (view === "samples"
+      ? "<desc>Conceptual observations, not measured sensor data. World X, Y and Z coordinates contribute red, green and blue respectively. Dense tree and infrastructure samples contrast with sparse terrain.</desc>"
+      : "<desc>Conceptual oblique landscape, generated from a common terrain and camera.</desc>") +
     surround +
     drawing[view].join("") +
     "</svg>";

@@ -1,8 +1,7 @@
 import "./styles.css";
 import { installMotion } from "./motion";
-if (import.meta.env.DEV) {
-  import("./theme-preview").then(({ installThemePreview }) => installThemePreview());
-}
+import { installThemeSelector } from "./themes";
+installThemeSelector();
 document.documentElement.classList.add("enhanced");
 const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
 const nav = document.getElementById("site-nav");
@@ -15,7 +14,9 @@ if (toggle && nav) {
       String(toggle.getAttribute("aria-expanded") !== "true"),
     ),
   );
-  nav.addEventListener("click", close);
+  nav.addEventListener("click", (event) => {
+    if (event.target instanceof Element && event.target.closest("a[href]")) close();
+  });
   document.addEventListener("keydown", (event) => {
     if (
       event.key === "Escape" &&

@@ -93,7 +93,7 @@ export function Perception({ to }: { to: LinkTo }) {
           <h2 id="problem-title">{home.problem.title}</h2>
           <p>{home.problem.text}</p>
         </div>
-        <div className="scene-journey" data-world>
+        <div className="scene-journey" data-world data-stage="0">
           <figure className="scene">
             <div className="scene-images">
               {media.world.map((state, index) => (
@@ -109,6 +109,34 @@ export function Perception({ to }: { to: LinkTo }) {
                   data-layer={index}
                 />
               ))}
+              <svg
+                className="structure-cues"
+                viewBox="0 0 1200 650"
+                aria-hidden="true"
+              >
+                <g className="semantic-cue">
+                  <rect x="410" y="14" width="160" height="145" rx="4" />
+                  <path d="M570 61 L650 48 H770 M764 43 L770 48 L764 53" />
+                  <text x="790" y="56">Terrain ridge</text>
+                </g>
+                <g className="semantic-cue">
+                  <rect x="530" y="370" width="110" height="70" rx="4" />
+                  <path d="M530 418 L400 478 H330 M336 473 L330 478 L336 483" />
+                  <text x="300" y="486" textAnchor="end">Field station</text>
+                </g>
+                <g className="semantic-cue">
+                  <rect x="690" y="400" width="110" height="76" rx="4" />
+                  <path d="M800 448 L840 498 H875 M869 493 L875 498 L869 503" />
+                  <text x="895" y="506">Trees</text>
+                </g>
+              </svg>
+              <div className="observation-key" aria-hidden="true">
+                <span>
+                  Position color · <b className="axis-x">X</b> /{" "}
+                  <b className="axis-y">Y</b> / <b className="axis-z">Z</b>
+                </span>
+                <span>Dense objects · Sparse terrain</span>
+              </div>
             </div>
             <figcaption>
               <span>Illustrative terrain study</span>
@@ -276,12 +304,14 @@ export function Home({ to }: { to: LinkTo }) {
   return (
     <>
       <Hero to={to} />
-      <Perception to={to} />
-      <Focus />
-      <ResearchDemo to={to} />
-      <Evidence to={to} />
-      <Outlook />
-      <About />
+      <div className="editorial-flow">
+        <Perception to={to} />
+        <Focus />
+        <ResearchDemo to={to} />
+        <Evidence to={to} />
+        <Outlook />
+        <About />
+      </div>
     </>
   );
 }

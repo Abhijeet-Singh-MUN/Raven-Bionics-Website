@@ -40,6 +40,12 @@ npm.cmd run build
 npm.cmd test
 ```
 
+## Local palette comparison
+
+On the local `preview/eight-theme-comparison` branch, run `npm run dev -- --port 4193 --strictPort` and open http://127.0.0.1:4193/. Use Theme in the navigation. The temporary default is Forest & Parchment. Previously saved selections are retained. Reset clears the saved choice.
+
+The comparison feature flag and option list live in `src/content/themes.ts`. Palette tokens live in `src/styles.css`. The branch's static build also includes the comparison while the flag is enabled, so production integration requires an explicit palette/selector decision.
+
 ## Maintenance
 
 Read [design](docs/WEBSITE_DESIGN.md), [content and claims](docs/CONTENT_AND_CLAIMS.md), [motion and media](docs/MOTION_AND_MEDIA.md), [asset manifest](docs/ASSET_MANIFEST.md), and [roadmap](docs/ROADMAP.md). The original [implementation specification](docs/website_spec.md) records V1 scope.

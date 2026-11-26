@@ -10,8 +10,10 @@ export function installMotion() {
   const stage = document.querySelector<HTMLElement>(".hero-stage");
   const portrait = document.querySelector<HTMLElement>(".portrait");
   const image = document.querySelector<HTMLImageElement>("#portrait");
-  const world = document.querySelector<HTMLElement>("[data-world]");
-  if (!journey || !stage || !portrait || !image || !world) return;
+  const worldRoot = document.querySelector<HTMLElement>("[data-world]");
+  if (!journey || !stage || !portrait || !image || !worldRoot) return;
+  const world = worldRoot;
+  const scene = world.querySelector<HTMLElement>(".scene")!;
   const layers = [...world.querySelectorAll<HTMLElement>("[data-layer]")];
   const buttons = [
     ...world.querySelectorAll<HTMLButtonElement>("[data-state]"),
@@ -23,12 +25,21 @@ export function installMotion() {
   );
   let frame = 0;
   let autoIndex = -1;
+  let currentIndex = 0;
   let manualScrollY: number | null = null;
   let eye = [0, 0];
   let mastInView = -1;
 
-  function show(index: number) {
+  function show(
+    index: number,
+    weights = layers.map((_, i) => Number(i === index)),
+  ) {
+    currentIndex = index;
+    world.dataset.stage = String(index);
+    world.style.setProperty("--structure-alpha", String(weights[1]));
+    world.style.setProperty("--observations-alpha", String(weights[2]));
     layers.forEach((layer, i) => {
+      layer.style.opacity = String(weights[i]);
       layer.classList.toggle("current", index === i);
       layer.setAttribute("aria-hidden", String(index !== i));
     });
@@ -39,6 +50,7 @@ export function installMotion() {
   buttons.forEach((button, i) =>
     button.addEventListener("click", () => {
       manualScrollY = window.scrollY;
+      delete world.dataset.scrubbing;
       show(i);
     }),
   );
@@ -109,21 +121,40 @@ export function installMotion() {
       stage.style.removeProperty("--portal");
     }
     const box = world.getBoundingClientRect();
-    const distanceWorld =
-      box.height - (world.firstElementChild as HTMLElement).offsetHeight;
-    if (distanceWorld > 2 && !compact.matches && !reduced.matches) {
-      const progress = clamp((24 - box.top) / distanceWorld);
-      const index = Math.min(
-        layers.length - 1,
-        Math.floor(progress * layers.length),
+    const distanceWorld = box.height - scene.offsetHeight;
+    if (distanceWorld > 2 && !reduced.matches) {
+      // Progress begins when the figure reaches its centered sticky position.
+      const pinTop = parseFloat(getComputedStyle(scene).top);
+      // The spacer's content height is playback; its padding is the final hold.
+      const playbackDistance = parseFloat(getComputedStyle(world, "::after").height);
+      const progress = clamp((pinTop - box.top) / playbackDistance);
+      // Equal thirds of playback, with identical blends centered on each boundary.
+      // The independent final hold starts only after all three thirds complete.
+      const stageShare = 1 / layers.length;
+      const halfBlend = stageShare * 0.15;
+      const structure = easeBetween(
+        progress,
+        stageShare - halfBlend,
+        stageShare + halfBlend,
       );
-      // A tap near a boundary should survive incidental touchpad movement.
+      const observations = easeBetween(
+        progress,
+        2 * stageShare - halfBlend,
+        2 * stageShare + halfBlend,
+      );
+      const weights = [
+        1 - structure,
+        structure * (1 - observations),
+        observations,
+      ];
+      const index = weights.indexOf(Math.max(...weights));
+      // Manual choices persist until a different stage and intentional scroll.
       if (
-        index !== autoIndex &&
-        (manualScrollY === null ||
-          Math.abs(window.scrollY - manualScrollY) >= 32)
+        manualScrollY === null ||
+        (index !== autoIndex && Math.abs(window.scrollY - manualScrollY) >= 32)
       ) {
-        show(index);
+        world.dataset.scrubbing = "";
+        show(index, weights);
         autoIndex = index;
         manualScrollY = null;
       }
@@ -151,6 +182,7 @@ export function installMotion() {
   };
   const measure = () => {
     measureEye();
+    world.style.setProperty("--scene-height", scene.offsetHeight + "px");
     schedule();
   };
   if ("IntersectionObserver" in window) {
@@ -162,7 +194,7 @@ export function installMotion() {
             ? visible.add(entry.target)
             : visible.delete(entry.target);
         window.removeEventListener("scroll", schedule);
-        if (visible.size && !compact.matches && !reduced.matches)
+        if (visible.size && !reduced.matches)
           window.addEventListener("scroll", schedule, { passive: true });
         schedule();
       },
@@ -175,12 +207,18 @@ export function installMotion() {
       observer.observe(journey);
       observer.observe(world);
       autoIndex = -1;
+      manualScrollY = null;
+      if (reduced.matches) {
+        delete world.dataset.scrubbing;
+        show(currentIndex);
+      }
       measure();
     };
     compact.addEventListener("change", reset);
     reduced.addEventListener("change", reset);
     reset();
   }
+  new ResizeObserver(measure).observe(scene);
   window.addEventListener("resize", measure, { passive: true });
   measure();
 }

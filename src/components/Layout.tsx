@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { company, home, navigation } from "../content/site";
+import { themeComparison, themeOptions } from "../content/themes";
 
 export function urlFrom(route: string) {
   const depth = route.split("/").filter(Boolean).length;
@@ -41,12 +42,13 @@ export function Layout({
   children: ReactNode;
 }) {
   const to = urlFrom(route);
+  const defaultThemeLabel = themeOptions.find((theme) => theme.id === themeComparison.defaultTheme)!.label;
   return (
     <>
       <a className="skip" href="#main">
         Skip to content
       </a>
-      <header className="masthead">
+      <header className={"masthead" + (themeComparison.enabled ? " theme-comparison" : "")}>
         <div className="shell mast-inner">
           <Wordmark to={to} />
           <button
@@ -82,6 +84,19 @@ export function Layout({
                 {item.label === "Contact" && <Arrow diagonal />}
               </a>
             ))}
+            {themeComparison.enabled && (
+              <div className="theme-controls" hidden>
+                <label htmlFor="theme-select">Theme</label>
+                <select id="theme-select" defaultValue={themeComparison.defaultTheme}>
+                  {themeOptions.map((theme) => (
+                    <option key={theme.id} value={theme.id}>{theme.label}</option>
+                  ))}
+                </select>
+                <button type="button" data-theme-reset aria-label={"Reset theme to " + defaultThemeLabel}>
+                  Reset
+                </button>
+              </div>
+            )}
           </nav>
         </div>
       </header>
