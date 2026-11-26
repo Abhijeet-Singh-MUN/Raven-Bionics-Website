@@ -4,13 +4,13 @@ export const company = {
     "A founder-led research venture investigating spatial intelligence, adaptive representations and coordinated autonomous systems.",
   founder: "",
   officialDetails: "",
-  email: "",
-  contactUrl:
-    "https://github.com/Abhijeet-Singh-MUN/Raven-Bionics-Website/issues",
-  contactLabel: "Open a public inquiry on GitHub",
+  email: "ravenbionics@gmail.com",
+  contactUrl: "mailto:ravenbionics@gmail.com",
+  contactLabel: "Email Raven Bionics",
 };
 
 export const navigation = [
+  { label: "Home", to: "" },
   { label: "Research", to: "research/" },
   { label: "Technology", to: "#technology" },
   { label: "About", to: "#about" },
@@ -20,8 +20,8 @@ export const navigation = [
 export const home = {
   hero: {
     label: "Independent research & development",
-    title: "Spatial intelligence",
-    emphasis: "for autonomous systems.",
+    title: "Spatial Intelligence",
+    emphasis: "for Autonomous Systems",
     intro:
       "We investigate how intelligent systems perceive their environments, build useful spatial memory, direct attention and adapt decisions under real resource constraints.",
     primary: "Explore our research",
@@ -82,7 +82,7 @@ export const home = {
   },
   contact: {
     title: "Research inquiries",
-    text: "For questions about the methods, or to discuss a research collaboration, open a public inquiry in the project repository.",
+    text: "For technical questions, research conversations or collaboration, contact us by email.",
   },
 };
 
