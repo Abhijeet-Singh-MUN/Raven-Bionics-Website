@@ -146,6 +146,19 @@ button[hidden] {
 .footer-base a:hover {
   color: var(--mint);
 }
+#site-nav .nav-back {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+  color: var(--mist);
+  border-right: 1px solid #ffffff35;
+  padding-right: 18px;
+}
+#site-nav .nav-back svg {
+  width: 19px;
+  height: 19px;
+  flex: none;
+}
 #site-nav .contact-nav {
   border: 1px solid #718078;
   padding: 8px 16px;
@@ -281,7 +294,8 @@ h2,
   line-height: 1.035;
   margin: 26px 0 22px;
 }
-.hero-copy h1 em {
+.hero-copy h1 .hero-emphasis {
+  font-style: normal;
   display: inline-block;
   max-width: 7.7em;
   color: var(--mint);
@@ -857,7 +871,7 @@ th small {
     margin: 17px 0 18px;
     line-height: 1.04;
   }
-  .hero-copy h1 em {
+  .hero-copy h1 .hero-emphasis {
     max-width: 9em;
   }
   .hero-copy p {
