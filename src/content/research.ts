@@ -1,12 +1,14 @@
 export type Study = {
   slug: string;
   resultsTable?: boolean;
+  kind?: "study" | "article";
+  originalUrl?: string;
   title: string;
   category: string;
   date: string;
   summary: string;
   sections: { heading: string; paragraphs: string[] }[];
-  figure: { src: string; alt: string; caption: string };
+  figure?: { src: string; alt: string; caption: string };
   sources: { label: string; url: string }[];
 };
 
@@ -60,16 +62,17 @@ export const featuredFinding = {
 export const studies: Study[] = [
   {
     slug: "adaptive-3d-reconstruction",
-    title: "Adaptive 3D Reconstruction & Spatial Attention",
-    category: "Experiment 05",
+    title: "How Spatial Memory Guides Selective Sensing",
+    category: "Spatial intelligence",
+    kind: "study",
     date: "18 November 2026",
     summary:
-      "How can a machine decide where to look again? Our simulation links range observations, object memory and heuristic attention to study that decision.",
+      "How simulated agents organize range observations into a shared spatial record and decide which areas deserve another look.",
     figure: {
-      src: "/media/research/spatial-memory.webp",
-      alt: "Two views of the same box. Seeded points cover its near face on the left. The simulator’s object memory represents this face as individual occupied or mixed voxels on the right.",
+      src: "/media/research/system-architecture.svg",
+      alt: "Research architecture diagram linking simulated sensing, spatial representation, object relationships, attention and evaluation.",
       caption:
-        "A controlled simulator fixture. The left view shows 2,048 initial returns on one face of a box. The right shows 1,728 surface or mixed leaf cells after repeated observations. Both views use the same projection.",
+        "Explanatory architecture diagram, not a screenshot or reconstructed scene. The system uses simulated sensing and object metadata; controlled study measurements are described in the text.",
     },
     sections: [
       {
@@ -87,10 +90,10 @@ export const studies: Study[] = [
         ],
       },
       {
-        heading: "Reading the figure",
+        heading: "From sensing to action",
         paragraphs: [
-          "To inspect the representation in isolation, we replayed a deterministic object fixture against the simulator’s spatial memory implementation. It generates returns on a single face of a 36-unit cube, then revisits one point. The final tree contains 35,938 allocated cells, including internal nodes and unobserved siblings. Only the 1,728 surface or mixed leaves are drawn.",
-          "The wireframe marks the known fixture dimensions. The visible gaps between observed regions show why allocation counts alone cannot tell us how much of an object has been observed.",
+          "The architecture illustrates the information flow: simulated range rays and metadata-derived camera detections supply spatial evidence; a sparse grid, object-centered voxel structures and a scene graph organize it; attention logic chooses regions for further observation. Telemetry helps evaluate the costs and outcomes.",
+          "A separate controlled replay against the actual memory implementation recorded 2,048 seed returns on a test surface and 1,728 surface or mixed leaf cells after repeated observations. These counts describe a specific fixture, not whole-environment reconstruction quality. The accompanying diagram is explanatory rather than an image of that run.",
         ],
       },
       {
@@ -111,7 +114,8 @@ export const studies: Study[] = [
     slug: "incremental-computation",
     resultsTable: true,
     title: "Incremental Computation for Spatial Memory",
-    category: "Performance study",
+    category: "Performance engineering",
+    kind: "study",
     date: "9 November 2026",
     summary:
       "A comparison of seven historical implementations examines the time and memory cost of keeping a growing spatial record useful to 24 simulated agents.",
@@ -166,5 +170,113 @@ export const studies: Study[] = [
         url: "/media/research/frame-rates.csv",
       },
     ],
+  },
+
+  {
+    slug: "measurable-collective-intelligence",
+    kind: "article",
+    category: "Research article",
+    date: "7 May 2026",
+    title: "Building Measurable Collective Intelligence",
+    summary: "Why interpreting and measuring a swarm matters more than making a simulation look intelligent.",
+    originalUrl: "https://www.linkedin.com/pulse/toward-measurable-collective-intelligence-engineering-abhijeet-singh-kgbkc",
+    sections: [
+      {
+        heading: "From visual demonstration to experimental infrastructure",
+        paragraphs: [
+          "The original article documented a browser-based research platform with three to twenty-four simulated drones exploring synthetic terrain. It described a deliberate shift in emphasis: from visually convincing agent motion toward controlled observations of collective behavior.",
+          "The central question was whether changes in control priorities produced measurable changes in coverage, attention to areas of interest, safety and resource use. That is more useful scientifically than concluding that coordination works because an animation appears orderly.",
+        ],
+      },
+      {
+        heading: "Interpretable control priorities",
+        paragraphs: [
+          "The system used four high-level policy coordinates—coverage, area-of-interest detail, risk and safety, and resource efficiency—mapped through a traceable grey-box chain into agent-level behavioral parameters. The resulting approach preserves identifiable decision pressures while leaving room for adaptive and learned components.",
+          "The article also described mission presets, runtime calibration, communication constraints and structured telemetry. The purpose was to separate actual policy effects from environment-specific artifacts and visually persuasive but unmeasured claims.",
+        ],
+      },
+      {
+        heading: "What this established",
+        paragraphs: [
+          "This was a research-platform and experimental-design milestone, not a demonstration of real-world drone performance or emergent specialist intelligence. Stronger claims require held-out scenarios, repeatable comparisons and clearly defined measures of task success. The complete original article provides the contemporary development record.",
+        ],
+      },
+    ],
+    sources: [],
+  },
+  {
+    slug: "multi-agent-coordination",
+    kind: "article",
+    category: "Engineering note",
+    date: "2026",
+    title: "From One Simulated Agent to Twenty-Four",
+    summary: "Scaling a LiDAR experiment into a coordinated swarm raised new questions about communications, shared objectives and measurable behavior.",
+    originalUrl: "https://www.linkedin.com/posts/abhijeet-singh-9aa09b190_swarmintelligence-autonomoussystems-agenticai-activity-7458051412451799040-8y2D",
+    sections: [
+      {
+        heading: "A new coordination problem",
+        paragraphs: [
+          "Extending a contained single-agent mapping experiment toward a multi-agent environment introduced range-limited communication, shared state and different operational pressures. Scouts, mapping agents, relays and revisits became useful ways of thinking about what a group needs to accomplish.",
+          "The published update described a grey-box policy organized around coverage, detail, safety and efficiency. Those priorities were intended to make behavioral differences inspectable rather than merely impressive to watch.",
+        ],
+      },
+      {
+        heading: "The research question",
+        paragraphs: [
+          "Can decentralized sensing and communication constraints still produce useful, explainable collective outcomes? Answering requires telemetry, controlled conditions and meaningful comparisons. The original post records the design motivation, not an independent validation of emergent intelligence.",
+        ],
+      },
+    ],
+    sources: [],
+  },
+  {
+    slug: "semantic-spatial-representations",
+    kind: "article",
+    category: "Development update",
+    date: "2026",
+    title: "Organizing 3D Observations into Semantic Memory",
+    summary: "A development update on scene graphs, simulated camera detections, range sensing and attention in a shared spatial research system.",
+    originalUrl: "https://www.linkedin.com/posts/abhijeet-singh-9aa09b190_experiment-4-45-weve-achieved-the-activity-7471965737797136384-Xey5",
+    sections: [
+      {
+        heading: "Adding relationships to geometry",
+        paragraphs: [
+          "An earlier development update described connecting range observations with object-level context in a 3D semantic scene graph. Simulated camera detections were introduced alongside LiDAR-style range rays so the system could represent objects, their relationships and selected observations in one research environment.",
+          "The camera observations in this prototype were derived from simulator metadata, rather than from an independently evaluated vision model. That distinction matters for interpreting the current system and the next machine-learning experiments.",
+        ],
+      },
+      {
+        heading: "Perception as a measurable process",
+        paragraphs: [
+          "The update also introduced a perception and verification layer to inspect changes, diagnose behavior and record data for later analysis. The broader research direction concerns how useful internal representations can be built, revised and evaluated as environments change.",
+        ],
+      },
+    ],
+    sources: [],
+  },
+  {
+    slug: "adversarial-environments",
+    kind: "article",
+    category: "Research perspective",
+    date: "2026",
+    title: "Why Autonomous Systems Need Harder Tests",
+    summary: "A case for varied, demanding environments that expose competing objectives before attempting to optimize a swarm.",
+    originalUrl: "https://www.linkedin.com/posts/abhijeet-singh-9aa09b190_starting-to-get-close-to-current-research-activity-7458899264383991808-SFfh",
+    sections: [
+      {
+        heading: "Testing beyond favorable conditions",
+        paragraphs: [
+          "An optimization method is only as informative as the situations used to evaluate it. The original research update argued that benign or repetitive environments may fail to activate the range of pressures a multi-agent controller is designed to balance.",
+          "A stronger research environment should vary obstacles, objectives, resources, communication conditions and mission events to expose trade-offs between exploration, mapping quality, safety and efficiency. The published post is a motivation for richer evaluations, not evidence that the entire proposed adversarial suite has been implemented.",
+        ],
+      },
+      {
+        heading: "What would constitute good evidence?",
+        paragraphs: [
+          "Controlled scenario families, multiple random seeds, held-out tests and measures of both task performance and resource consumption would make optimization results more meaningful. A controller that excels only in one friendly simulation should not be presented as generally robust.",
+        ],
+      },
+    ],
+    sources: [],
   },
 ];
