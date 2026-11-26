@@ -14,7 +14,9 @@ npm test
 npm run preview
 ```
 
-Vite prints the local address. The development server tracks component and content imports through its configuration. The production preview serves the last build. Run the build before the static tests. For a headless or CI job use `npm ci && npm run build && npm test`.
+Vite prints the local address. The development server tracks component and content imports through its configuration. The production preview serves the last build. Pulling new source commits requires another build before they appear in a running production preview. Run the build before the static tests. For a headless or CI job use `npm ci && npm run build && npm test`.
+
+For the review URL used in this checkout, run the development server with `npm run dev -- --port 4193 --strictPort`, or rebuild and use `npm run preview -- --port 4193 --strictPort`. Stop the existing server using that port before switching modes. Confirm the terminal working directory is this checkout and check `git status --short --branch` before integrating remote work. With a clean worktree, `git fetch origin` followed by `git merge --ff-only origin/main` brings in remote commits without rewriting history. Preserve pending edits before integrating.
 
 ## Structure
 

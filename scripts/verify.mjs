@@ -111,3 +111,18 @@ test("case-study endpoints match medians of the four published records per versi
   for (const endpoint of [medians.get("baseline-original"), medians.get("v6")])
     assert.ok(page.includes("<td>" + endpoint + "</td>"));
 });
+
+test("theme previews stay out of production and favicon preserves approved paths", () => {
+  for (const file of files.filter((file) => /\.(js|css)$/.test(file))) {
+    assert.ok(
+      !/previewTheme|data-preview-theme/.test(readFileSync(file, "utf8")),
+      "Development theme code leaked into " + file,
+    );
+  }
+  const identity = join(dist, "media/identity");
+  const master = readFileSync(join(identity, "perched-raven.svg"), "utf8");
+  const favicon = readFileSync(join(identity, "favicon.svg"), "utf8");
+  const paths = (svg) => [...svg.matchAll(/ d="([^"]+)"/g)].map((match) => match[1]);
+  assert.ok(paths(master).length > 0);
+  assert.deepEqual(paths(favicon), paths(master));
+});

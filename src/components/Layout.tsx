@@ -28,7 +28,7 @@ export function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 export function Wordmark({ to }: { to: LinkTo }) {
   return (
     <a className="brand" href={to("")} aria-label="Raven Bionics home">
-      <img src={to("media/identity/mark.svg")} width="38" height="38" alt="" />
+      <span className="brand-symbol" aria-hidden="true" />
       <span>Raven Bionics</span>
     </a>
   );

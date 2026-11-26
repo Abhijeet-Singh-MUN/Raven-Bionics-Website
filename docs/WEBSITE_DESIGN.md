@@ -25,4 +25,16 @@ Each article has a stable directory URL, a unique title, its own summary and sou
 
 ## 26 November 2026 editorial update
 
-Hero title is now title case in both lines and **not italicized**; the second line remains a distinct accent color. The `Corvus corax` caption remains. Added Home and route-aware Back navigation on research routes. Current logo is a new vector candidate subject to final approval. Research archive has separate technical studies and founder writing sections.
+Hero title is now title case in both lines and **not italicized**; the second line remains a distinct accent color. The `Corvus corax` caption remains. Added Home and route-aware Back navigation on research routes. The selected perched raven now accompanies the existing wordmark. Its canonical SVG remains byte-identical to the supplied source. Research archive has separate technical studies and founder writing sections.
+
+## Perched raven and temporary theme evaluation
+
+The canonical symbol is public/media/identity/perched-raven.svg, copied byte-for-byte from the selected source. It retains the original orientation, body, wing, legs and perch. Header/footer color is applied through a CSS mask. The wordmark remains site text in DM Sans. The favicon is generated from the master by scripts/generate-favicon.mjs during npm run build. Its only added presentation is a pale fill in dark browser chrome. Edit the canonical source only when an artwork change is approved, then rebuild to derive the favicon.
+
+Development mode supports /?previewTheme=forest, /?previewTheme=graphite and /?previewTheme=ivory at http://127.0.0.1:4193/. The comparison parameter follows local page links for evaluation. It never writes a storage preference. Returning to a URL without the parameter restores Forest & Mint. src/theme-preview.ts and src/theme-preview.css are imported only under import.meta.env.DEV and are absent from production JS/CSS. Alternative palettes remain development-only evaluation options. Forest & Mint is the production default.
+
+The preview palettes adjust semantic text, surface, border, focus and interactive colors across the site. Media files receive no color filters. The accepted hero layout, portrait and scroll choreography retain their geometry.
+
+Actual Chrome captures for the homepage, research archive, performance article, header and footer at desktop/mobile sizes are in ignored .qa/theme-review/. Open review.html for the side-by-side screenshot gallery and logo proofs. Logo proofs compare dark-on-light, pale-on-dark and theme-accent variants at 16, 32, 38, 64, 128 and 256 pixels. The 16 px symbol retains the overall silhouette, with fine feather and perch detail resolving at larger sizes.
+
+The canonical file was replaced with the supplied raven-bionics-perched-raven-clean.svg. Its artwork paths, grouping and viewBox match the earlier master exactly. Its description metadata has changed. The earlier supplied file referenced VectorStock and commercial licensing. Usage rights remain unverified.

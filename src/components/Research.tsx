@@ -1,17 +1,26 @@
-import { metrics, studies, type Study } from "../content/research";
+import {
+  metrics,
+  studies,
+  researchArchive,
+  researchCategories,
+  type Study,
+} from "../content/research";
 import { Arrow, Kicker, type LinkTo } from "./Layout";
 
 export function StudyList({
   to,
-  kind,
-  limit,
+  group,
+  featured = false,
 }: {
   to: LinkTo;
-  kind?: "study" | "article";
-  limit?: number;
+  group?: Study["group"];
+  featured?: boolean;
 }) {
-  const items = studies.filter((study) => !kind || (study.kind ?? "study") === kind).sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
-  const visible = limit ? items.slice(0, limit) : items;
+  const visible = studies
+    .filter((study) =>
+      (!group || study.group === group) && (!featured || study.featured),
+    )
+    .sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
   return (
     <div className="study-list">
       {visible.map((study) => (
@@ -19,7 +28,7 @@ export function StudyList({
           <a href={to("research/" + study.slug + "/")} className="study-row">
             <div className="study-id">
               <span className="study-category">{study.category}</span>
-              <span className="study-date">{study.date}</span>
+              <time className="study-date" dateTime={study.publishedAt}>{study.date}</time>
             </div>
             <div>
               <h3>{study.title}</h3>
@@ -41,16 +50,19 @@ export function ResearchIndex({ to }: { to: LinkTo }) {
         <Kicker>Research archive</Kicker>
         <div className="section-intro">
           <h1>Research.</h1>
-          <p>
-            Research articles, engineering notes and measured studies about
-            spatial intelligence, multi-agent coordination and experimental
-            autonomous systems.
-          </p>
+          <p>{researchArchive.description}</p>
         </div>
-        <h2 className="archive-group-title">Technical studies</h2>
-        <StudyList to={to} kind="study" />
-        <h2 className="archive-group-title">Research writing &amp; development notes</h2>
-        <StudyList to={to} kind="article" />
+        <nav className="research-categories" aria-label="Research categories">
+          {researchCategories.map(({ id, label }) => (
+            <a key={id} href={"#" + id}>{label}</a>
+          ))}
+        </nav>
+        {researchCategories.map(({ id, label }) => (
+          <section key={id} id={id} aria-labelledby={id + "-title"} className="archive-group">
+            <h2 id={id + "-title"} className="archive-group-title">{label}</h2>
+            <StudyList to={to} group={id} />
+          </section>
+        ))}
       </div>
     </div>
   );
@@ -93,7 +105,7 @@ export function Article({ study, to }: { study: Study; to: LinkTo }) {
           <Kicker>{study.category}</Kicker>
           <h1>{study.title}</h1>
           <p>{study.summary}</p>
-          <span className="meta">{study.date}</span>
+          <time className="meta" dateTime={study.publishedAt}>{study.date}</time>
         </header>
         {study.figure && (
           <figure className="article-figure">

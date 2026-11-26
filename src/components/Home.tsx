@@ -173,10 +173,11 @@ export function Focus() {
 }
 export function ResearchDemo({ to }: { to: LinkTo }) {
   const study = studies.find((entry) => entry.slug === home.demo.studySlug)!;
-  const poster = to((media.demo.poster || study.figure?.src || "media/research/system-architecture.svg").replace(/^\//, ""));
+  const hasMedia = Boolean(media.demo.video || media.demo.poster);
+  const poster = media.demo.poster ? to(media.demo.poster) : undefined;
   return (
     <section id="experiments" className="demo pad-section">
-      <div className="shell demo-grid">
+      <div className={"shell demo-grid" + (hasMedia ? "" : " demo-text")}>
         <div>
           <Kicker>{home.demo.label}</Kicker>
           <h2>{home.demo.title}</h2>
@@ -185,31 +186,32 @@ export function ResearchDemo({ to }: { to: LinkTo }) {
             Read the research study <Arrow />
           </a>
         </div>
-        <figure className="demo-frame">
-          {media.demo.video ? (
-            <video
-              controls
-              playsInline
-              preload="none"
-              poster={poster}
-              aria-label="Simulation demonstration"
-            >
-              <source src={to(media.demo.video)} />
-            </video>
-          ) : (
-            <img
-              src={poster}
-              alt={media.demo.alt || study.figure?.alt || "Experimental spatial intelligence architecture diagram"}
-              width="1440"
-              height="760"
-              loading="lazy"
-            />
-          )}
-          <figcaption>
-            {media.demo.caption ||
-              (media.demo.video ? "Simulation recording" : study.figure?.caption || "Experimental system architecture")}
-          </figcaption>
-        </figure>
+        {hasMedia && (
+          <figure className="demo-frame">
+            {media.demo.video ? (
+              <video
+                controls
+                playsInline
+                preload="none"
+                poster={poster}
+                aria-label="Simulation demonstration"
+              >
+                <source src={to(media.demo.video)} />
+              </video>
+            ) : (
+              <a href={poster} aria-label="Open the full-size simulator screenshot">
+                <img
+                  src={poster}
+                  alt={media.demo.alt}
+                  width={media.demo.width}
+                  height={media.demo.height}
+                  loading="lazy"
+                />
+              </a>
+            )}
+            <figcaption>{media.demo.caption}</figcaption>
+          </figure>
+        )}
       </div>
     </section>
   );
@@ -227,7 +229,10 @@ export function Evidence({ to }: { to: LinkTo }) {
           <h3>{featuredFinding.title}</h3>
           <p>{featuredFinding.text}</p>
         </aside>
-        <StudyList to={to} limit={3} />
+        <StudyList to={to} featured />
+        <div className="research-actions">
+          <a className="button" href={to("research/")}>View All Research</a>
+        </div>
       </div>
     </section>
   );

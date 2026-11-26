@@ -3,7 +3,7 @@ import { Layout, urlFrom } from "./components/Layout";
 import { Home } from "./components/Home";
 import { ResearchIndex, Article } from "./components/Research";
 import { company, home } from "./content/site";
-import { studies } from "./content/research";
+import { studies, researchArchive } from "./content/research";
 
 export const routes = [
   "",
@@ -32,7 +32,7 @@ export function renderPage(route: string, siteUrl?: string) {
   const description = escape(
     study?.summary ??
       (route
-        ? "Explore the experiments, methods and measured results of Raven Bionics."
+        ? researchArchive.description
         : home.hero.intro),
   );
   const fullUrl = siteUrl && new URL(route, siteUrl).href;
@@ -62,7 +62,7 @@ export function renderPage(route: string, siteUrl?: string) {
 <meta property="og:site_name" content="Raven Bionics"><meta property="og:type" content="${study ? "article" : "website"}"><meta property="og:title" content="${title}">
 <meta property="og:description" content="${description}"><meta property="og:image" content="${escape(image)}"><meta name="twitter:card" content="summary_large_image">
 ${fullUrl ? '<link rel="canonical" href="' + escape(fullUrl) + '"><meta property="og:url" content="' + escape(fullUrl) + '">' : ""}
-<link rel="icon" href="${to("media/identity/mark.svg")}" type="image/svg+xml">
+<link rel="icon" href="${to("media/identity/favicon.svg")}" type="image/svg+xml">
 <script type="application/ld+json">${JSON.stringify(schema).replace(/</g, "\\u003c")}</script>
 <script type="module" src="/@site/client.ts"></script></head><body>${body}</body></html>`;
 }

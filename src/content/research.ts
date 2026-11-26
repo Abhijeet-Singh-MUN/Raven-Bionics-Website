@@ -1,7 +1,17 @@
+export const researchCategories = [
+  { id: "technical-proof", label: "Technical Proof & Experiments" },
+  { id: "research-articles", label: "Research Articles" },
+  { id: "engineering-notes", label: "Engineering Notes" },
+  { id: "perspectives", label: "Perspectives & Outlook" },
+] as const;
+
+type ResearchGroup = (typeof researchCategories)[number]["id"];
+
 export type Study = {
   slug: string;
   resultsTable?: boolean;
-  kind?: "study" | "article";
+  group: ResearchGroup;
+  featured?: boolean;
   originalUrl?: string;
   title: string;
   category: string;
@@ -60,22 +70,22 @@ export const featuredFinding = {
   text: "In a matched 35,938-cell fixture, the time to update 96 observations and request a graph summary fell from 550.4 to 6.7 ms. The final implementation retained about 43% more JavaScript heap.",
 };
 
+export const researchArchive = {
+  description:
+    "Measured simulation studies and founder-authored research articles, engineering notes and development updates on spatial intelligence and multi-agent systems.",
+};
+
 export const studies: Study[] = [
   {
     slug: "adaptive-3d-reconstruction",
     title: "How Spatial Memory Guides Selective Sensing",
-    category: "Spatial intelligence",
-    kind: "study",
+    category: "Implementation study",
+    group: "technical-proof",
+    featured: true,
     date: "18 November 2026",
     publishedAt: "2026-11-18",
     summary:
       "How simulated agents organize range observations into a shared spatial record and decide which areas deserve another look.",
-    figure: {
-      src: "/media/research/system-architecture.svg",
-      alt: "Research architecture diagram linking simulated sensing, spatial representation, object relationships, attention and evaluation.",
-      caption:
-        "Explanatory architecture diagram, not a screenshot or reconstructed scene. The system uses simulated sensing and object metadata; controlled study measurements are described in the text.",
-    },
     sections: [
       {
         heading: "Where should a system look next?",
@@ -94,8 +104,8 @@ export const studies: Study[] = [
       {
         heading: "From sensing to action",
         paragraphs: [
-          "The architecture illustrates the information flow: simulated range rays and metadata-derived camera detections supply spatial evidence; a sparse grid, object-centered voxel structures and a scene graph organize it; attention logic chooses regions for further observation. Telemetry helps evaluate the costs and outcomes.",
-          "A separate controlled replay against the actual memory implementation recorded 2,048 seed returns on a test surface and 1,728 surface or mixed leaf cells after repeated observations. These counts describe a specific fixture, not whole-environment reconstruction quality. The accompanying diagram is explanatory rather than an image of that run.",
+          "Simulated range rays and metadata-derived camera detections supply spatial evidence; a sparse grid, object-centered voxel structures and a scene graph organize it; attention logic chooses regions for further observation. Telemetry helps evaluate the costs and outcomes.",
+          "A separate controlled replay against the actual memory implementation recorded 2,048 seed returns on a test surface and 1,728 surface or mixed leaf cells after repeated observations. These counts describe a specific fixture, not whole-environment reconstruction quality.",
         ],
       },
       {
@@ -116,8 +126,9 @@ export const studies: Study[] = [
     slug: "incremental-computation",
     resultsTable: true,
     title: "Incremental Computation for Spatial Memory",
-    category: "Performance engineering",
-    kind: "study",
+    category: "Performance study",
+    group: "technical-proof",
+    featured: true,
     date: "9 November 2026",
     publishedAt: "2026-11-09",
     summary:
@@ -177,7 +188,8 @@ export const studies: Study[] = [
 
   {
     slug: "measurable-collective-intelligence",
-    kind: "article",
+    group: "research-articles",
+    featured: true,
     category: "Research article",
     date: "7 May 2026",
     publishedAt: "2026-05-07",
@@ -210,7 +222,7 @@ export const studies: Study[] = [
   },
   {
     slug: "multi-agent-coordination",
-    kind: "article",
+    group: "engineering-notes",
     category: "Engineering note",
     date: "7 May 2026",
     publishedAt: "2026-05-07",
@@ -236,7 +248,7 @@ export const studies: Study[] = [
   },
   {
     slug: "semantic-spatial-representations",
-    kind: "article",
+    group: "engineering-notes",
     category: "Development update",
     date: "14 June 2026",
     publishedAt: "2026-06-14",
@@ -262,7 +274,7 @@ export const studies: Study[] = [
   },
   {
     slug: "adversarial-environments",
-    kind: "article",
+    group: "perspectives",
     category: "Research perspective",
     date: "9 May 2026",
     publishedAt: "2026-05-09",

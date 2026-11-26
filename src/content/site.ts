@@ -111,5 +111,13 @@ export const media = {
       alt: "Sparse samples mark selected surfaces of the same illustrative landscape.",
     },
   ],
-  demo: { video: "", poster: "", alt: "", caption: "" },
+  demo: {
+    video: "",
+    poster: "media/research/simulator-spatial-memory-2026-11-15.png",
+    width: 1891,
+    height: 861,
+    alt: "Raven Bionics simulator showing the terrain and sensing overlays on the left and the accumulated point cloud with object relationships on the right.",
+    caption:
+      "Simulator capture supplied by the founder, 15 November 2026. Scene and sensing overlays at left, full-memory point-cloud view at right. Visible profile ex-incremental-parts, code v6. On-screen performance readings describe this moment in the run.",
+  },
 };

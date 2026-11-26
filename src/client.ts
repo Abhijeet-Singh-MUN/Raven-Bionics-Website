@@ -1,5 +1,8 @@
 import "./styles.css";
 import { installMotion } from "./motion";
+if (import.meta.env.DEV) {
+  import("./theme-preview").then(({ installThemePreview }) => installThemePreview());
+}
 document.documentElement.classList.add("enhanced");
 const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
 const nav = document.getElementById("site-nav");
