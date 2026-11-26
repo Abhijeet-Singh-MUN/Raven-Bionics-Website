@@ -22,3 +22,7 @@ Desktop uses a split editorial composition. Mobile places the portrait above the
 - `/research/incremental-computation/` for the optimization case study.
 
 Each article has a stable directory URL, a unique title, its own summary and source material. All descriptive text is in the initial HTML.
+
+## 26 November 2026 editorial update
+
+Hero title is now title case in both lines and **not italicized**; the second line remains a distinct accent color. The `Corvus corax` caption remains. Added Home and route-aware Back navigation on research routes. Current logo is a new vector candidate subject to final approval. Research archive has separate technical studies and founder writing sections.
