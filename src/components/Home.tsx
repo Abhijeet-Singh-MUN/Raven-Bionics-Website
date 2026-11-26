@@ -182,7 +182,7 @@ export function ResearchDemo({ to }: { to: LinkTo }) {
           <h2>{home.demo.title}</h2>
           <p>{home.demo.text}</p>
           <a className="text-link" href={to("research/" + study.slug + "/")}>
-            Explore {study.category} <Arrow />
+            Read the research study <Arrow />
           </a>
         </div>
         <figure className="demo-frame">
