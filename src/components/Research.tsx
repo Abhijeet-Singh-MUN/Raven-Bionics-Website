@@ -1,15 +1,25 @@
 import { metrics, studies, type Study } from "../content/research";
 import { Arrow, Kicker, type LinkTo } from "./Layout";
 
-export function StudyList({ to }: { to: LinkTo }) {
+export function StudyList({
+  to,
+  kind,
+  limit,
+}: {
+  to: LinkTo;
+  kind?: "study" | "article";
+  limit?: number;
+}) {
+  const items = studies.filter((study) => !kind || (study.kind ?? "study") === kind);
+  const visible = limit ? items.slice(0, limit) : items;
   return (
     <div className="study-list">
-      {studies.map((study) => (
+      {visible.map((study) => (
         <article key={study.slug}>
           <a href={to("research/" + study.slug + "/")} className="study-row">
             <div className="study-id">
-              {study.category}
-              <span>{study.date}</span>
+              <span className="study-category">{study.category}</span>
+              <span className="study-date">{study.date}</span>
             </div>
             <div>
               <h3>{study.title}</h3>
@@ -32,12 +42,15 @@ export function ResearchIndex({ to }: { to: LinkTo }) {
         <div className="section-intro">
           <h1>Research.</h1>
           <p>
-            Technical studies from the Raven Bionics simulation platform,
-            including methods, measured results and the limits of each
-            experiment.
+            Research articles, engineering notes and measured studies about
+            spatial intelligence, multi-agent coordination and experimental
+            autonomous systems.
           </p>
         </div>
-        <StudyList to={to} />
+        <h2 className="archive-group-title">Technical studies</h2>
+        <StudyList to={to} kind="study" />
+        <h2 className="archive-group-title">Research writing &amp; development notes</h2>
+        <StudyList to={to} kind="article" />
       </div>
     </div>
   );
@@ -82,15 +95,17 @@ export function Article({ study, to }: { study: Study; to: LinkTo }) {
           <p>{study.summary}</p>
           <span className="meta">{study.date}</span>
         </header>
-        <figure className="article-figure">
-          <img
-            src={to(study.figure.src.replace(/^\//, ""))}
-            alt={study.figure.alt}
-            width="1200"
-            height="640"
-          />
-          <figcaption>{study.figure.caption}</figcaption>
-        </figure>
+        {study.figure && (
+          <figure className="article-figure">
+            <img
+              src={to(study.figure.src.replace(/^\//, ""))}
+              alt={study.figure.alt}
+              width="1200"
+              height="640"
+            />
+            <figcaption>{study.figure.caption}</figcaption>
+          </figure>
+        )}
         <div className="article-body">
           {study.sections.map((section) => (
             <section key={section.heading}>
@@ -101,25 +116,14 @@ export function Article({ study, to }: { study: Study; to: LinkTo }) {
             </section>
           ))}
           {study.resultsTable && <ResultsTable />}
-          {study.sources.length > 0 && (
-            <section>
-              <h2>Sources</h2>
-              <ul>
-                {study.sources.map((source) => (
-                  <li key={source.url}>
-                    <a
-                      href={
-                        /^https?:/.test(source.url)
-                          ? source.url
-                          : to(source.url.replace(/^\//, ""))
-                      }
-                    >
-                      {source.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </section>
+          {study.originalUrl && (
+            <p className="original-publication">
+              Based on an earlier publication by the founder.
+              {" "}
+              <a href={study.originalUrl} target="_blank" rel="noopener noreferrer">
+                Read the original on LinkedIn ↗
+              </a>
+            </p>
           )}
           <a href={to("research/")} className="text-link">
             Return to research <Arrow />
