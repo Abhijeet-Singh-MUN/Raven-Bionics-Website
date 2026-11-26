@@ -65,7 +65,7 @@ export const home = {
   evidence: {
     label: "Experimental evidence",
     title: "From the lab.",
-    text: "Two studies follow the same spatial memory from different angles. The first shows what repeated observations retain. The second measures the time and memory it takes to maintain that record.",
+    text: "Research studies and authored notes examining spatial memory, coordinated autonomous systems, experimental methodology and measurable computational trade-offs.",
   },
   outlook: {
     label: "Research outlook",
