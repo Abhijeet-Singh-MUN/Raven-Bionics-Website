@@ -6,6 +6,7 @@ export type Study = {
   title: string;
   category: string;
   date: string;
+  publishedAt?: string;
   summary: string;
   sections: { heading: string; paragraphs: string[] }[];
   figure?: { src: string; alt: string; caption: string };
@@ -66,6 +67,7 @@ export const studies: Study[] = [
     category: "Spatial intelligence",
     kind: "study",
     date: "18 November 2026",
+    publishedAt: "2026-11-18",
     summary:
       "How simulated agents organize range observations into a shared spatial record and decide which areas deserve another look.",
     figure: {
@@ -117,6 +119,7 @@ export const studies: Study[] = [
     category: "Performance engineering",
     kind: "study",
     date: "9 November 2026",
+    publishedAt: "2026-11-09",
     summary:
       "A comparison of seven historical implementations examines the time and memory cost of keeping a growing spatial record useful to 24 simulated agents.",
     figure: {
@@ -177,6 +180,7 @@ export const studies: Study[] = [
     kind: "article",
     category: "Research article",
     date: "7 May 2026",
+    publishedAt: "2026-05-07",
     title: "Building Measurable Collective Intelligence",
     summary: "Why interpreting and measuring a swarm matters more than making a simulation look intelligent.",
     originalUrl: "https://www.linkedin.com/pulse/toward-measurable-collective-intelligence-engineering-abhijeet-singh-kgbkc",
@@ -208,7 +212,8 @@ export const studies: Study[] = [
     slug: "multi-agent-coordination",
     kind: "article",
     category: "Engineering note",
-    date: "2026",
+    date: "7 May 2026",
+    publishedAt: "2026-05-07",
     title: "From One Simulated Agent to Twenty-Four",
     summary: "Scaling a LiDAR experiment into a coordinated swarm raised new questions about communications, shared objectives and measurable behavior.",
     originalUrl: "https://www.linkedin.com/posts/abhijeet-singh-9aa09b190_swarmintelligence-autonomoussystems-agenticai-activity-7458051412451799040-8y2D",
@@ -233,7 +238,8 @@ export const studies: Study[] = [
     slug: "semantic-spatial-representations",
     kind: "article",
     category: "Development update",
-    date: "2026",
+    date: "14 June 2026",
+    publishedAt: "2026-06-14",
     title: "Organizing 3D Observations into Semantic Memory",
     summary: "A development update on scene graphs, simulated camera detections, range sensing and attention in a shared spatial research system.",
     originalUrl: "https://www.linkedin.com/posts/abhijeet-singh-9aa09b190_experiment-4-45-weve-achieved-the-activity-7471965737797136384-Xey5",
@@ -258,7 +264,8 @@ export const studies: Study[] = [
     slug: "adversarial-environments",
     kind: "article",
     category: "Research perspective",
-    date: "2026",
+    date: "9 May 2026",
+    publishedAt: "2026-05-09",
     title: "Why Autonomous Systems Need Harder Tests",
     summary: "A case for varied, demanding environments that expose competing objectives before attempting to optimize a swarm.",
     originalUrl: "https://www.linkedin.com/posts/abhijeet-singh-9aa09b190_starting-to-get-close-to-current-research-activity-7458899264383991808-SFfh",
