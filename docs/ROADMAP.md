@@ -37,3 +37,12 @@ Future research directions belong in the outlook until supported by evaluated im
 **Release verification:** homepage, `/research/`, the two study articles, anchors, mobile/desktop and reduced-motion, correct canonical/sitemap/OG from SITE_URL, usable contact, HTTPS, no broken assets. Once verified, record release URL, commit and test outcomes here.
 
 **Not a reason to postpone job applications:** research work, additional assets, logo revision, and future website improvements.
+
+## Pre-launch revision — 26 November 2026
+
+- User requested and received capitalized non-italic hero title, Home link and contextual Back navigation on research routes, and public email `ravenbionics@gmail.com` in place of GitHub Issues.
+- Research archive now contains measured technical studies plus shortened founder-authored pieces linked to their original LinkedIn publications. The visible Sources sections were removed; internal measurement provenance, notes and CSV retained.
+- Featured fixture image was replaced by `media/research/system-architecture.svg`, a plainly labeled architecture illustration. **Real simulator recording and screenshots still require an actual source capture** and must never be invented.
+- A new right-facing raven SVG was installed in header/footer/favicon as a **logo candidate**; **founder review and approval are now required before public launch**. No assumption that the newly proposed mark is final.
+- Existing performance numbers and methodological caveats preserved. No changes to hero assets/eye-motion physics.
+- **Before publication:** review the logo at 16px, 36px and large display sizes; verify email inbox; supply or explicitly defer authentic demo footage; choose domain/host, set `SITE_URL`; run CI and browser QA; verify production HTTPS routes and social metadata.
