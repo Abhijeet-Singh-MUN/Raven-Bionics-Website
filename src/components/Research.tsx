@@ -10,7 +10,7 @@ export function StudyList({
   kind?: "study" | "article";
   limit?: number;
 }) {
-  const items = studies.filter((study) => !kind || (study.kind ?? "study") === kind);
+  const items = studies.filter((study) => !kind || (study.kind ?? "study") === kind).sort((a, b) => (b.publishedAt || "").localeCompare(a.publishedAt || ""));
   const visible = limit ? items.slice(0, limit) : items;
   return (
     <div className="study-list">
